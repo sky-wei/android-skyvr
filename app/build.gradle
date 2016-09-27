@@ -27,12 +27,6 @@ android {
     }
 }
 
-repositories{
-  flatDir{
-    dirs 'libs'
-  }
-}
-
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
 
@@ -51,10 +45,4 @@ dependencies {
     compile 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
     apt "org.androidannotations:androidannotations:$AAVersion"
     compile "org.androidannotations:androidannotations-api:$AAVersion"
-
-    // cardborad
-    compile(name:'audio', ext:'aar')
-    compile(name:'common', ext:'aar')
-    compile(name:'base', ext:'aar')
-    compile 'com.google.protobuf.nano:protobuf-javanano:3.0.0-alpha-7'    
 }
