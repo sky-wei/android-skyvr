@@ -13,10 +13,11 @@
 
 package org.rajawali3d.vr.materials.shaders;
 
+import com.sky.vrlibrary.R;
+
 import org.rajawali3d.materials.Material;
 import org.rajawali3d.materials.shaders.VertexShader;
 import org.rajawali3d.math.vector.Vector2;
-import org.rajawali3d.vr.R;
 
 /**
  * @author dennis.ippel

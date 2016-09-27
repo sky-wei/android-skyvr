@@ -45,4 +45,7 @@ dependencies {
     compile 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
     apt "org.androidannotations:androidannotations:$AAVersion"
     compile "org.androidannotations:androidannotations-api:$AAVersion"
+    compile 'org.greenrobot:eventbus:3.0.0'
+
+    compile project(':common')
 }
