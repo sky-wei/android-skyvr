@@ -43,6 +43,7 @@ dependencies {
     compile 'org.greenrobot:greendao:3.1.1'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
+    compile 'com.ogaclejapan.smarttablayout:utils-v4:1.6.1@aar'
     apt "org.androidannotations:androidannotations:$AAVersion"
     compile "org.androidannotations:androidannotations-api:$AAVersion"
     compile 'org.greenrobot:eventbus:3.0.0'
