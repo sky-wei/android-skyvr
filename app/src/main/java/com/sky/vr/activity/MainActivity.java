@@ -1,20 +1,18 @@
 package com.sky.vr.activity;
 
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
-import com.ogaclejapan.smarttablayout.SmartTabLayout;
-import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
-import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import com.sky.vr.R;
 import com.sky.vr.base.VRBaseActivity;
-import com.sky.vr.fragment.PageFragment;
+import com.sky.vr.fragment.VideoFragment_;
 
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
@@ -32,12 +30,6 @@ public class MainActivity extends VRBaseActivity
     @ViewById(R.id.nav_view)
     NavigationView navigationView;
 
-    @ViewById(R.id.viewpagertab)
-    SmartTabLayout smartTabLayout;
-
-    @ViewById(R.id.view_pager)
-    ViewPager viewPager;
-
     @Override
     public void initView() {
 
@@ -50,13 +42,8 @@ public class MainActivity extends VRBaseActivity
 
         navigationView.setNavigationItemSelectedListener(this);
 
-        FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
-                getSupportFragmentManager(), FragmentPagerItems.with(this)
-                .add("Test1", PageFragment.class)
-                .add("Test2", PageFragment.class)
-                .create());
-        viewPager.setAdapter(adapter);
-        smartTabLayout.setViewPager(viewPager);
+        // 切换到视频界面
+        switchFragment(VideoFragment_.class);
     }
 
     @Override
@@ -69,50 +56,46 @@ public class MainActivity extends VRBaseActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
+
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_video) {
+            // 切换到视频界面
+            switchFragment(VideoFragment_.class);
+        } else if (id == R.id.nav_game) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_picture) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_manager) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.action_settings) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_about) {
 
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void switchFragment(Class<? extends Fragment> classes) {
+
+        if (classes == null) return ;
+
+        FragmentManager manager = getSupportFragmentManager();
+        Fragment curFragment = manager.findFragmentById(R.id.fl_content);
+
+        if (curFragment != null
+                && classes.equals(curFragment.getClass())) {
+            // 相同的，不需要处理
+            return ;
+        }
+
+        Fragment fragment = Fragment.instantiate(getContext(), classes.getName());
+        getSupportFragmentManager().beginTransaction().replace(R.id.fl_content, fragment).commit();
     }
 }

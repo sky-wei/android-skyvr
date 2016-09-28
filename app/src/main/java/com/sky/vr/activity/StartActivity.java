@@ -22,5 +22,6 @@ public class StartActivity extends VRBaseActivity {
                 .intent(getContext())
                 .flags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 .start();
+        finish();
     }
 }
