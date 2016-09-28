@@ -25,5 +25,7 @@ public interface VideoContract {
         void mainThreadEvent(T event);
 
         void unregisterEvent();
+
+        void loadTables();
     }
 }
