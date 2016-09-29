@@ -2,6 +2,8 @@ package com.sky.vr.event;
 
 import android.os.Bundle;
 
+import com.sky.android.common.utils.Alog;
+
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 
@@ -9,13 +11,11 @@ import java.lang.reflect.Constructor;
  * Created by sky on 16-9-28.
  */
 
-public abstract class Event {
+public class Event {
 
     private int mEventId;
     private Object mData;
     private Bundle mExtras;
-
-    Event() {}
 
     public int getEventId() {
         return mEventId;
@@ -52,14 +52,24 @@ public abstract class Event {
         return mExtras == null ? null : mExtras.getSerializable(name);
     }
 
+    public static  <T extends Event> T buildEvent(Class<T> tClass, int eventId) {
+        return buildEvent(tClass, eventId, null);
+    }
+
+    public static  <T extends Event> T buildEvent(Class<T> tClass, int eventId, Object data) {
+        return new Build(eventId).setData(data).create(tClass);
+    }
+
     public static class Build {
 
         private int mEventId;
         private Object mData;
         private Bundle mExtras;
 
-        public Build(int eventId) {
+        public Build() {}
 
+        public Build(int eventId) {
+            mEventId = eventId;
         }
 
         public Build setEventId(int eventId) {
@@ -119,11 +129,11 @@ public abstract class Event {
 
         public <T extends Event> T create(Class<T> tClass) {
 
+            if (tClass == null) return null;
+
             try {
                 // 创建对象
-                Constructor<T> constructor = tClass.getConstructor();
-                constructor.setAccessible(true);
-                Event event = constructor.newInstance();
+                Event event = tClass.newInstance();
 
                 // 设置值
                 event.mEventId = mEventId;
@@ -132,7 +142,7 @@ public abstract class Event {
 
                 return (T) event;
             } catch (Exception e) {
-                e.printStackTrace();
+                Alog.e("Event", "Create Exception!", e);
             }
             return null;
         }

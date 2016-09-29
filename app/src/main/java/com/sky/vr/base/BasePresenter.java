@@ -5,5 +5,4 @@ package com.sky.vr.base;
  */
 public interface BasePresenter {
 
-
 }
