@@ -19,13 +19,6 @@ public interface VideoContract {
 
     interface Presenter<T> extends BasePresenter {
 
-        void registerEvent();
-
-        @Subscribe(threadMode = ThreadMode.MAIN)
-        void mainThreadEvent(T event);
-
-        void unregisterEvent();
-
         void loadTables();
     }
 }

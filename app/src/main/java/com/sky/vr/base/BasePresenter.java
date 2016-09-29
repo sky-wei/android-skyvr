@@ -5,4 +5,9 @@ package com.sky.vr.base;
  */
 public interface BasePresenter {
 
+    void resume();
+
+    void pause();
+
+    void destroy();
 }
