@@ -9,6 +9,16 @@ import com.sky.vr.data.source.VideoDataSource;
 import com.sky.vr.data.source.VideoRepository;
 import com.sky.vr.data.source.remote.VideoRemoteDataSource;
 import com.sky.vr.event.VideoEvent;
+import com.sky.vr.model.CategoryModel;
+
+import java.util.List;
+
+import rx.Observable;
+import rx.Scheduler;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by sky on 16-9-28.
@@ -36,18 +46,31 @@ public class VideoPresenter extends VRBasePresenter<VideoEvent> implements Video
 
         mView.showLoading();
 
-        mRepository.getVideCategory(new VideoDataSource.LoadCategoryCallback() {
-            @Override
-            public void onCategoryLoaded(Tags tags) {
+        mRepository.getVideCategory()
+                .subscribeOn(Schedulers.io())
+                .flatMap(new Func1<Tags, Observable<List<CategoryModel>>>() {
+                    @Override
+                    public Observable<List<CategoryModel>> call(Tags tags) {
+                        return null;
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<CategoryModel>>() {
+                    @Override
+                    public void onCompleted() {
 
+                    }
 
-            }
+                    @Override
+                    public void onError(Throwable e) {
 
-            @Override
-            public void onFailure(String msg, Throwable tr) {
+                    }
 
-            }
-        });
+                    @Override
+                    public void onNext(List<CategoryModel> categoryModels) {
+
+                    }
+                });
 
     }
 }

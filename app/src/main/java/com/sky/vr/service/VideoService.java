@@ -2,7 +2,6 @@ package com.sky.vr.service;
 
 import com.sky.vr.data.mojing.Tags;
 
-import retrofit2.Call;
 import retrofit2.http.POST;
 import rx.Observable;
 

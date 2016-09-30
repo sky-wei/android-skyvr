@@ -1,5 +1,9 @@
 package com.sky.vr.data.source;
 
+import com.sky.vr.data.mojing.Tags;
+
+import rx.Observable;
+
 /**
  * Created by sky on 16-9-29.
  */
@@ -15,9 +19,9 @@ public class VideoRepository implements VideoDataSource {
     }
 
     @Override
-    public void getVideCategory(LoadCategoryCallback callback) {
+    public Observable<Tags> getVideCategory() {
 
         // 请求数据
-        mRemote.getVideCategory(callback);
+        return mRemote.getVideCategory();
     }
 }
