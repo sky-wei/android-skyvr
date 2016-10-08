@@ -33,11 +33,6 @@ public class SubVideoFragment extends VRBaseFragment {
     public void initView() {
 
         recycler_view.setLayoutManager(new LinearLayoutManager(getContext()));
-
-//        PageAdapter pageAdapter = new PageAdapter(getContext());
-//        pageAdapter.setItems(buildItem());
-//
-//        recycler_view.setAdapter(pageAdapter);
     }
 
     private List<String> buildItem() {
@@ -50,27 +45,6 @@ public class SubVideoFragment extends VRBaseFragment {
 
         return items;
     }
-
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void cancelLoading() {
-
-    }
-
-    @Override
-    public void showMessage(String msg) {
-
-    }
-
-    @Override
-    public void setPresenter(Object presenter) {
-
-    }
-
 
     public class PageAdapter extends SimpleRecyclerAdapter<String> {
 

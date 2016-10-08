@@ -3,6 +3,8 @@ package com.sky.vr.base;
 import android.widget.Toast;
 
 import com.sky.android.common.base.BaseFragment;
+import com.sky.vr.R;
+import com.sky.vr.view.LoadingDialog;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -14,6 +16,7 @@ import org.androidannotations.annotations.EFragment;
 public abstract class VRBaseFragment<T extends BasePresenter> extends BaseFragment implements BaseView<T> {
 
     protected T mPresenter;
+    private LoadingDialog mLoadingDialog;
 
     @Override
     public void onResume() {
@@ -45,11 +48,22 @@ public abstract class VRBaseFragment<T extends BasePresenter> extends BaseFragme
     @Override
     public void showLoading() {
 
+        if (mLoadingDialog != null) {
+            // 释放
+            mLoadingDialog.dismiss();
+        }
+
+        mLoadingDialog = new LoadingDialog(getContext());
+        mLoadingDialog.setTipText(R.string.loading);
+        mLoadingDialog.setCancelable(false);
+        mLoadingDialog.show();
     }
 
     @Override
     public void cancelLoading() {
-
+        // 隐藏
+        mLoadingDialog.dismiss();
+        mLoadingDialog = null;
     }
 
     @Override

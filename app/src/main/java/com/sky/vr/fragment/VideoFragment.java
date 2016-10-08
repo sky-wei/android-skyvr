@@ -38,16 +38,6 @@ public class VideoFragment extends VRBaseFragment<VideoContract.Presenter> imple
     }
 
     @Override
-    public void showLoading() {
-        super.showLoading();
-    }
-
-    @Override
-    public void cancelLoading() {
-        super.cancelLoading();
-    }
-
-    @Override
     public void setTables(List<CategoryModel.SubCategory> subCategories) {
 
         FragmentPagerItems.Creator creator = FragmentPagerItems.with(getContext());
