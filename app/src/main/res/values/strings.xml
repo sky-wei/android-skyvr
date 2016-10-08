@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">android-skyvr</string>
+    <string name="app_name">Sky VR</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

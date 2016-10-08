@@ -4,31 +4,35 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_video"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="视频" />
-        <item
-            android:id="@+id/nav_game"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="游戏" />
+            android:icon="@drawable/ic_video_library_white"
+            android:title="全景视频" />
         <item
             android:id="@+id/nav_picture"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="图片" />
+            android:icon="@drawable/ic_image_white"
+            android:title="全景图片" />
+        <item
+            android:id="@+id/nav_game"
+            android:icon="@drawable/ic_games_white"
+            android:title="游戏" />
     </group>
 
     <item android:title="我的">
         <menu>
             <item
+                android:id="@+id/nav_local_movies"
+                android:icon="@drawable/ic_local_movies_white"
+                android:title="本地视频" />
+            <item
                 android:id="@+id/nav_manager"
-                android:icon="@drawable/ic_menu_share"
-                android:title="下载" />
+                android:icon="@drawable/ic_file_download_white"
+                android:title="下载管理" />
             <item
                 android:id="@+id/nav_settings"
-                android:icon="@drawable/ic_menu_send"
+                android:icon="@drawable/ic_settings_applications_white"
                 android:title="设置" />
             <item
                 android:id="@+id/nav_about"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/ic_info_white"
                 android:title="关于" />
         </menu>
     </item>
