@@ -1,5 +1,7 @@
 package com.sky.vr.base;
 
+import android.widget.Toast;
+
 import com.sky.android.common.base.BaseFragment;
 
 import org.androidannotations.annotations.AfterViews;
@@ -38,6 +40,22 @@ public abstract class VRBaseFragment<T extends BasePresenter> extends BaseFragme
         if (mPresenter != null) {
             mPresenter.destroy();
         }
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void cancelLoading() {
+
+    }
+
+    @Override
+    public void showMessage(String msg) {
+        // 显示提示信息
+        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override

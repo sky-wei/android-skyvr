@@ -118,7 +118,7 @@ public class Tags {
         private int res_id;
         private String keyname;
         private String title;
-        private List<SubCategory> list;
+        private List<Classify> list;
         private String type;
         private String subtype;
 
@@ -154,11 +154,11 @@ public class Tags {
             this.title = title;
         }
 
-        public List<SubCategory> getList() {
+        public List<Classify> getList() {
             return list;
         }
 
-        public void setList(List<SubCategory> list) {
+        public void setList(List<Classify> list) {
             this.list = list;
         }
 
@@ -179,7 +179,65 @@ public class Tags {
         }
     }
 
-    public static class SubCategory {
+    public static class Classify {
+
+        private String bg;
+        private String keyname;
+        private String title;
+        private List<SubClassify> list;
+        private String type;
+        private String subtype;
+
+        public String getBg() {
+            return bg;
+        }
+
+        public void setBg(String bg) {
+            this.bg = bg;
+        }
+
+        public String getKeyname() {
+            return keyname;
+        }
+
+        public void setKeyname(String keyname) {
+            this.keyname = keyname;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        public List<SubClassify> getList() {
+            return list;
+        }
+
+        public void setList(List<SubClassify> list) {
+            this.list = list;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public String getSubtype() {
+            return subtype;
+        }
+
+        public void setSubtype(String subtype) {
+            this.subtype = subtype;
+        }
+    }
+
+    public static class SubClassify {
 
         private int id;
         private String title;

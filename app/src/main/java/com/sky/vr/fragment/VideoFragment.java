@@ -1,15 +1,21 @@
 package com.sky.vr.fragment;
 
 import android.support.v4.view.ViewPager;
+import android.widget.Toast;
 
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
+import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
+import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import com.sky.vr.R;
 import com.sky.vr.base.VRBaseFragment;
 import com.sky.vr.contract.VideoContract;
+import com.sky.vr.model.CategoryModel;
 import com.sky.vr.presenter.VideoPresenter;
 
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
+
+import java.util.List;
 
 /**
  * Created by sky on 16-9-28.
@@ -28,20 +34,34 @@ public class VideoFragment extends VRBaseFragment<VideoContract.Presenter> imple
 
         // 初始化
         mPresenter = new VideoPresenter(getContext(), this);
-
-//        FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
-//                getChildFragmentManager(), FragmentPagerItems.with(getContext())
-//                .add("Test1", PageFragment_.class)
-//                .add("Test2", PageFragment_.class)
-//                .create());
-
-//        viewPager.setAdapter(adapter);
-
-        smartTabLayout.setViewPager(viewPager);
+        mPresenter.loadTables();
     }
 
     @Override
     public void showLoading() {
+        super.showLoading();
+    }
 
+    @Override
+    public void cancelLoading() {
+        super.cancelLoading();
+    }
+
+    @Override
+    public void setTables(List<CategoryModel.SubCategory> subCategories) {
+
+        FragmentPagerItems.Creator creator = FragmentPagerItems.with(getContext());
+
+        for (int i = 0; i < subCategories.size(); i++) {
+
+            CategoryModel.SubCategory subCategory = subCategories.get(i);
+            creator.add(subCategory.getName(), SubVideoFragment_.class);
+        }
+
+        FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
+                getChildFragmentManager(), creator.create());
+
+        viewPager.setAdapter(adapter);
+        smartTabLayout.setViewPager(viewPager);
     }
 }

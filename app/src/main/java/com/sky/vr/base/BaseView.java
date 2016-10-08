@@ -5,5 +5,11 @@ package com.sky.vr.base;
  */
 public interface BaseView<T> {
 
+    void showLoading();
+
+    void cancelLoading();
+
+    void showMessage(String msg);
+
     void setPresenter(T presenter);
 }
