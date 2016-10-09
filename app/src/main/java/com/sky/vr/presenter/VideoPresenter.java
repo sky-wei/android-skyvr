@@ -6,6 +6,7 @@ import com.sky.vr.base.VRBasePresenter;
 import com.sky.vr.contract.VideoContract;
 import com.sky.vr.data.mojing.Tags;
 import com.sky.vr.data.source.VideoRepository;
+import com.sky.vr.data.source.local.VideoLocalDataSource;
 import com.sky.vr.data.source.remote.VideoRemoteDataSource;
 import com.sky.vr.event.VideoEvent;
 import com.sky.vr.mapper.CategoryMapper;
@@ -29,7 +30,8 @@ public class VideoPresenter extends VRBasePresenter<VideoEvent> implements Video
         super(context);
         mView = view;
         view.setPresenter(this);
-        mRepository = new VideoRepository(null, new VideoRemoteDataSource());
+        mRepository = new VideoRepository(
+                new VideoLocalDataSource(getContext()), new VideoRemoteDataSource());
     }
 
     @Override

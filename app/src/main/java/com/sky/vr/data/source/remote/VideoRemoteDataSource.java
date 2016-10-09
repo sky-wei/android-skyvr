@@ -29,4 +29,9 @@ public class VideoRemoteDataSource implements VideoDataSource {
 
         return videoService.getCategory();
     }
+
+    @Override
+    public void saveVideCategory(Tags tags) {
+        // 使用也不做
+    }
 }

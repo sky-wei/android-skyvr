@@ -11,4 +11,6 @@ import rx.Observable;
 public interface VideoDataSource {
 
     Observable<Tags> getVideCategory();
+
+    void saveVideCategory(Tags tags);
 }
