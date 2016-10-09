@@ -1,6 +1,7 @@
 package com.sky.vr.data.source.remote;
 
 import com.sky.vr.app.VRConfig;
+import com.sky.vr.data.mojing.TagsResource;
 import com.sky.vr.data.mojing.Tags;
 import com.sky.vr.data.source.VideoDataSource;
 import com.sky.vr.service.VideoService;
@@ -17,7 +18,32 @@ import rx.Observable;
 public class VideoRemoteDataSource implements VideoDataSource {
 
     @Override
-    public Observable<Tags> getVideCategory() {
+    public Observable<Tags> getCategory() {
+
+        VideoService videoService = buildVideoService();
+
+        return videoService.getCategory();
+    }
+
+    @Override
+    public void saveCategory(Tags tags) {
+        // 使用也不做
+    }
+
+    @Override
+    public Observable<TagsResource> getTagsResource(int resId, int tag, int start, int num) {
+
+        VideoService videoService = buildVideoService();
+
+        if (resId == 9999) {
+            // 所有信息
+            return videoService.getCategoryCatInfo(resId, start, num);
+        }
+        // 指定分类信息
+        return videoService.getTagsResource(resId, tag, start, num);
+    }
+
+    private VideoService buildVideoService() {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(VRConfig.BASE_URL)
@@ -25,13 +51,6 @@ public class VideoRemoteDataSource implements VideoDataSource {
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
 
-        VideoService videoService = retrofit.create(VideoService.class);
-
-        return videoService.getCategory();
-    }
-
-    @Override
-    public void saveVideCategory(Tags tags) {
-        // 使用也不做
+        return retrofit.create(VideoService.class);
     }
 }

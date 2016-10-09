@@ -2,6 +2,7 @@ package com.sky.vr.data.source.local;
 
 import android.content.Context;
 
+import com.sky.vr.data.mojing.TagsResource;
 import com.sky.vr.data.mojing.Tags;
 import com.sky.vr.data.source.VideoDataSource;
 
@@ -20,16 +21,21 @@ public class VideoLocalDataSource implements VideoDataSource {
     }
 
     @Override
-    public Observable<Tags> getVideCategory() {
+    public Observable<Tags> getCategory() {
 
         return null;
     }
 
     @Override
-    public void saveVideCategory(Tags tags) {
+    public void saveCategory(Tags tags) {
 
         if (tags == null) return ;
 
 
+    }
+
+    @Override
+    public Observable<TagsResource> getTagsResource(int resId, int tag, int start, int num) {
+        return null;
     }
 }

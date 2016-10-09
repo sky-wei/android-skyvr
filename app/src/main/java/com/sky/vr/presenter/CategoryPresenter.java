@@ -3,12 +3,15 @@ package com.sky.vr.presenter;
 import android.content.Context;
 
 import com.sky.vr.base.VRBasePresenter;
-import com.sky.vr.contract.VideoContract;
+import com.sky.vr.contract.CategoryContract;
+import com.sky.vr.data.mojing.Tags;
 import com.sky.vr.data.mojing.TagsResource;
 import com.sky.vr.data.source.VideoRepository;
 import com.sky.vr.data.source.local.VideoLocalDataSource;
 import com.sky.vr.data.source.remote.VideoRemoteDataSource;
 import com.sky.vr.event.VideoEvent;
+import com.sky.vr.mapper.CategoryMapper;
+import com.sky.vr.model.CategoryModel;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -19,12 +22,12 @@ import rx.schedulers.Schedulers;
  * Created by sky on 16-9-28.
  */
 
-public class VideoPresenter extends VRBasePresenter<VideoEvent> implements VideoContract.Presenter {
+public class CategoryPresenter extends VRBasePresenter<VideoEvent> implements CategoryContract.Presenter {
 
-    private VideoContract.View mView;
+    private CategoryContract.View mView;
     private VideoRepository mRepository;
 
-    public VideoPresenter(Context context, VideoContract.View view) {
+    public CategoryPresenter(Context context, CategoryContract.View view) {
         super(context);
         mView = view;
         view.setPresenter(this);
@@ -38,32 +41,38 @@ public class VideoPresenter extends VRBasePresenter<VideoEvent> implements Video
     }
 
     @Override
-    public void loadTagsResource(int resId, int tag) {
+    public void loadCategory() {
 
-        mRepository.getTagsResource(resId, tag, 0, 20)
+        mView.showLoading();
+
+        mRepository.getCategory()
                 .subscribeOn(Schedulers.io())
-                .map(new Func1<TagsResource, Object>() {
+                .map(new Func1<Tags, CategoryModel>() {
                     @Override
-                    public Object call(TagsResource tagsResource) {
+                    public CategoryModel call(Tags tags) {
 
-                        return null;
+                        CategoryMapper mapper = new CategoryMapper();
+
+                        return mapper.transform(tags);
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Object>() {
+                .subscribe(new Subscriber<CategoryModel>() {
                     @Override
                     public void onCompleted() {
-
+                        mView.cancelLoading();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        mView.showMessage("获取标题列表失败");
                     }
 
                     @Override
-                    public void onNext(Object o) {
-
+                    public void onNext(CategoryModel categoryModel) {
+                        // 视频
+                        CategoryModel.Category category = categoryModel.getCategories().get(1);
+                        mView.setCategory(category.getResId(), category.getSubCategories());
                     }
                 });
     }

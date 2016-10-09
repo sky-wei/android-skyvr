@@ -1,5 +1,6 @@
 package com.sky.vr.data.source;
 
+import com.sky.vr.data.mojing.TagsResource;
 import com.sky.vr.data.mojing.Tags;
 
 import rx.Observable;
@@ -10,7 +11,9 @@ import rx.Observable;
 
 public interface VideoDataSource {
 
-    Observable<Tags> getVideCategory();
+    Observable<Tags> getCategory();
 
-    void saveVideCategory(Tags tags);
+    void saveCategory(Tags tags);
+
+    Observable<TagsResource> getTagsResource(int resId, int tag, int start, int num);
 }

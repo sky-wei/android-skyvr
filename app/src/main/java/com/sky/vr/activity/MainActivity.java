@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.sky.vr.R;
 import com.sky.vr.base.VRBaseActivity;
 import com.sky.vr.fragment.AboutFragment_;
+import com.sky.vr.fragment.CategoryFragment_;
 import com.sky.vr.fragment.SettingFragment;
 import com.sky.vr.fragment.VideoFragment_;
 
@@ -45,7 +46,7 @@ public class MainActivity extends VRBaseActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         // 切换到视频界面
-        switchFragment(VideoFragment_.class);
+        switchFragment(CategoryFragment_.class);
     }
 
     @Override
@@ -66,7 +67,7 @@ public class MainActivity extends VRBaseActivity
 
         if (id == R.id.nav_video) {
             // 切换到视频界面
-            switchFragment(VideoFragment_.class);
+            switchFragment(CategoryFragment_.class);
         } else if (id == R.id.nav_game) {
 
         } else if (id == R.id.nav_picture) {
