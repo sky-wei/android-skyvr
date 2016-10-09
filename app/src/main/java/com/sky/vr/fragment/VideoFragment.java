@@ -1,13 +1,12 @@
 package com.sky.vr.fragment;
 
 import android.support.v4.view.ViewPager;
-import android.widget.Toast;
 
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import com.sky.vr.R;
-import com.sky.vr.base.VRBaseFragment;
+import com.sky.vr.base.PresenterFragment;
 import com.sky.vr.contract.VideoContract;
 import com.sky.vr.model.CategoryModel;
 import com.sky.vr.presenter.VideoPresenter;
@@ -21,7 +20,7 @@ import java.util.List;
  * Created by sky on 16-9-28.
  */
 @EFragment(R.layout.fragment_video)
-public class VideoFragment extends VRBaseFragment<VideoContract.Presenter> implements VideoContract.View {
+public class VideoFragment extends PresenterFragment<VideoContract.Presenter> implements VideoContract.View {
 
     @ViewById(R.id.viewpagertab)
     SmartTabLayout smartTabLayout;

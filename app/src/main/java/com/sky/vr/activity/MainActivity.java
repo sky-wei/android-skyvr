@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import com.sky.vr.R;
 import com.sky.vr.base.VRBaseActivity;
+import com.sky.vr.fragment.AboutFragment_;
+import com.sky.vr.fragment.SettingFragment;
 import com.sky.vr.fragment.VideoFragment_;
 
 import org.androidannotations.annotations.EActivity;
@@ -71,10 +73,21 @@ public class MainActivity extends VRBaseActivity
 
         } else if (id == R.id.nav_manager) {
 
-        } else if (id == R.id.action_settings) {
-
+        } else if (id == R.id.nav_settings) {
+            // 进入设置界面
+            CommonActivity_
+                    .intent(getContext())
+                    .title(R.string.settings)
+                    .fname(SettingFragment.class.getName())
+                    .supportFragment(false)
+                    .start();
         } else if (id == R.id.nav_about) {
-
+            // 进入关于界面
+            CommonActivity_
+                    .intent(getContext())
+                    .title(R.string.about)
+                    .fname(AboutFragment_.class.getName())
+                    .start();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

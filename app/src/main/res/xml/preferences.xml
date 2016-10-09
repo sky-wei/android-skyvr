@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fragment="com.sky.vr.fragment.SettingFragment">
+
+    <PreferenceCategory
+        android:title="@string/personal_setting">
+
+        <!--<ListPreference-->
+            <!--android:dialogTitle="@string/dialogTitle"-->
+            <!--android:entries="@array/language_sort_options"-->
+            <!--android:entryValues="@array/language_sort_options_values"-->
+            <!--android:key="language_setting"-->
+            <!--android:summary="@string/language_choose"-->
+            <!--android:title="@string/select_language"-->
+            <!--android:defaultValue="auto" />-->
+
+        <ListPreference
+            android:dialogTitle="@string/divice_dialog_title"
+            android:entries="@array/device_sort_options"
+            android:entryValues="@array/device_sort_options_values"
+            android:key="device_setting"
+            android:summary="@string/device_choose"
+            android:title="@string/select_device"
+            android:defaultValue="default" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/storage_setting">
+
+        <Preference
+            android:key="image_cache"
+            android:title="@string/image_cache"
+            android:summary="0KB"/>
+
+        <Preference
+            android:key="data_cache"
+            android:title="@string/data_cache"
+            android:summary="0KB"/>
+
+        <Preference
+            android:key="download_cache"
+            android:title="@string/download_cache"
+            android:summary="0KB"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

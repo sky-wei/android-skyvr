@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 设置 - 语言 -->
+
+    <string-array name="language_sort_options">
+        <item>自动</item>
+        <item>English(United States)</item>
+        <item>简体中文</item>
+    </string-array>
+
+    <string-array name="language_sort_options_values">
+        <item>auto</item>
+        <item>en</item>
+        <item>zh</item>
+    </string-array>
+
+    <!--  设置 - 设备  -->
+
+    <string-array name="device_sort_options">
+        <item>Default</item>
+        <item>Google Cardboard</item>
+    </string-array>
+
+    <string-array name="device_sort_options_values">
+        <item>default</item>
+        <item>cardboard</item>
+    </string-array>
+
+</resources>

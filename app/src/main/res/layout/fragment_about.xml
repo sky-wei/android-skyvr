@@ -4,13 +4,9 @@
     android:layout_height="match_parent"
     android:background="@color/background">
 
-    <include android:id="@+id/header"
-        layout="@layout/header_layout"/>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/header"
         android:orientation="vertical"
         android:gravity="center_horizontal">
 
@@ -29,12 +25,19 @@
             android:text="@string/app_name"/>
 
         <TextView
-            android:id="@+id/website_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="20dp"
             android:textColor="@color/colorPrimary"
-            android:text="@string/website"/>
+            android:text="@string/mail"/>
+
+        <TextView
+            android:id="@+id/tv_source"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/colorPrimary"
+            android:text="@string/source"/>
 
     </LinearLayout>
 
@@ -48,7 +51,7 @@
         android:paddingBottom="10dp">
 
         <TextView
-            android:id="@+id/version_text_view"
+            android:id="@+id/tv_version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorPrimary"/>

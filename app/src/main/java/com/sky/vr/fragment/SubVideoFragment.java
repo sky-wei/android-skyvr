@@ -11,11 +11,10 @@ import com.sky.android.common.adapter.SimpleRecyclerAdapter;
 import com.sky.android.common.base.BaseRecyclerAdapter;
 import com.sky.android.common.base.BaseRecyclerHolder;
 import com.sky.vr.R;
-import com.sky.vr.base.VRBaseFragment;
+import com.sky.vr.base.PresenterFragment;
 
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +22,8 @@ import java.util.List;
 /**
  * Created by sky on 16-9-27.
  */
-@EFragment(R.layout.fragemnt_page)
-public class SubVideoFragment extends VRBaseFragment {
+@EFragment(R.layout.fragment_page)
+public class SubVideoFragment extends PresenterFragment {
 
     @ViewById(R.id.recycler_view)
     public RecyclerView recycler_view;
