@@ -9,6 +9,8 @@ import com.sky.vr.data.source.VideoRepository;
 import com.sky.vr.data.source.local.VideoLocalDataSource;
 import com.sky.vr.data.source.remote.VideoRemoteDataSource;
 import com.sky.vr.event.VideoEvent;
+import com.sky.vr.mapper.ResourceMapper;
+import com.sky.vr.model.ResourceModel;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -40,30 +42,35 @@ public class VideoPresenter extends VRBasePresenter<VideoEvent> implements Video
     @Override
     public void loadTagsResource(int resId, int tag) {
 
-        mRepository.getTagsResource(resId, tag, 0, 20)
-                .subscribeOn(Schedulers.io())
-                .map(new Func1<TagsResource, Object>() {
-                    @Override
-                    public Object call(TagsResource tagsResource) {
+        mView.showLoading();
 
-                        return null;
+        mRepository.getTagsResource(resId, tag, 0, 50)
+                .subscribeOn(Schedulers.io())
+                .map(new Func1<TagsResource, ResourceModel>() {
+                    @Override
+                    public ResourceModel call(TagsResource tagsResource) {
+
+                        ResourceMapper mapper = new ResourceMapper();
+
+                        return mapper.transform(tagsResource);
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Object>() {
+                .subscribe(new Subscriber<ResourceModel>() {
                     @Override
                     public void onCompleted() {
-
+                        mView.cancelLoading();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        mView.showMessage("加载数据失败");
                     }
 
                     @Override
-                    public void onNext(Object o) {
-
+                    public void onNext(ResourceModel model) {
+                        // 暂时不分页
+                        mView.appendTagsResource(model.getResources());
                     }
                 });
     }

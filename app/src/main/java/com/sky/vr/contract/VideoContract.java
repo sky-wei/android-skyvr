@@ -3,6 +3,7 @@ package com.sky.vr.contract;
 import com.sky.vr.base.BasePresenter;
 import com.sky.vr.base.BaseView;
 import com.sky.vr.model.CategoryModel;
+import com.sky.vr.model.ResourceModel;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ public interface VideoContract {
 
     interface View extends BaseView<Presenter> {
 
+        void appendTagsResource(List<ResourceModel.Resource> resources);
     }
 
     interface Presenter extends BasePresenter {
