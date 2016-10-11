@@ -6,6 +6,9 @@ import com.sky.vr.data.mojing.Tags;
 import com.sky.vr.data.source.VideoDataSource;
 import com.sky.vr.service.VideoService;
 
+import java.io.IOException;
+
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -18,11 +21,13 @@ import rx.Observable;
 public class VideoRemoteDataSource implements VideoDataSource {
 
     @Override
-    public Observable<Tags> getCategory() {
+    public Tags getCategory() throws IOException {
 
         VideoService videoService = buildVideoService();
 
-        return videoService.getCategory();
+        Response<Tags> response =  videoService.getCategory().execute();
+
+        return response.body();
     }
 
     @Override

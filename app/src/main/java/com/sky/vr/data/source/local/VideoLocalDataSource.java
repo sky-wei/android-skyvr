@@ -21,7 +21,7 @@ public class VideoLocalDataSource implements VideoDataSource {
     }
 
     @Override
-    public Observable<Tags> getCategory() {
+    public Tags getCategory() {
 
         return null;
     }

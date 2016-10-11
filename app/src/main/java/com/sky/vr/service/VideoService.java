@@ -3,6 +3,7 @@ package com.sky.vr.service;
 import com.sky.vr.data.mojing.TagsResource;
 import com.sky.vr.data.mojing.Tags;
 
+import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -15,7 +16,7 @@ import rx.Observable;
 public interface VideoService {
 
     @GET("1/tags_list.js")
-    Observable<Tags> getCategory();
+    Call<Tags> getCategory();
 
     @GET("1/category/catinfo/{resId}-start{start}-num{num}.js")
     Observable<TagsResource> getCategoryCatInfo(
