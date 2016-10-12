@@ -1,11 +1,5 @@
-package com.sky.vr.data.source.remote;
+package com.sky.vr.data.source.cloud;
 
-import com.sky.vr.data.DataException;
-
-import java.io.IOException;
-
-import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -14,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by sky on 16-10-12.
  */
 
-public abstract class BaseRemoteDataSource {
+public abstract class CloudDataSource {
 
     public <T> T buildService(Class<T> tClass, String baseUrl) {
 

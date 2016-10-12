@@ -4,19 +4,13 @@ import android.content.Context;
 
 import com.sky.vr.base.VRBasePresenter;
 import com.sky.vr.contract.VideoContract;
-import com.sky.vr.data.mojing.TagsResource;
 import com.sky.vr.data.source.VideoDataRepository;
-import com.sky.vr.data.source.VideoDataSource;
 import com.sky.vr.data.source.VideoSourceFactory;
-import com.sky.vr.data.source.local.VideoLocalDataSource;
-import com.sky.vr.data.source.remote.VideoRemoteDataSource;
 import com.sky.vr.event.VideoEvent;
-import com.sky.vr.data.mapper.ResourceMapper;
 import com.sky.vr.data.model.ResourceModel;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**

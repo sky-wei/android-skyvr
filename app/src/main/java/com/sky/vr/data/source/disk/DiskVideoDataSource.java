@@ -1,11 +1,9 @@
-package com.sky.vr.data.source.local;
+package com.sky.vr.data.source.disk;
 
 import android.content.Context;
 
 import com.sky.vr.data.model.CategoryModel;
 import com.sky.vr.data.model.ResourceModel;
-import com.sky.vr.data.mojing.TagsResource;
-import com.sky.vr.data.mojing.Tags;
 import com.sky.vr.data.source.VideoDataSource;
 
 import rx.Observable;
@@ -14,11 +12,11 @@ import rx.Observable;
  * Created by sky on 16-9-29.
  */
 
-public class VideoLocalDataSource implements VideoDataSource {
+public class DiskVideoDataSource implements VideoDataSource {
 
     private Context mContext;
 
-    public VideoLocalDataSource(Context context) {
+    public DiskVideoDataSource(Context context) {
         mContext = context;
     }
 

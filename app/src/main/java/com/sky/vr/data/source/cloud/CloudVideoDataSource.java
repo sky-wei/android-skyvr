@@ -1,4 +1,4 @@
-package com.sky.vr.data.source.remote;
+package com.sky.vr.data.source.cloud;
 
 import com.sky.vr.app.VRConfig;
 import com.sky.vr.data.DataException;
@@ -18,7 +18,7 @@ import rx.functions.Func1;
  * Created by sky on 16-9-29.
  */
 
-public class VideoRemoteDataSource extends BaseRemoteDataSource implements VideoDataSource {
+public class CloudVideoDataSource extends CloudDataSource implements VideoDataSource {
 
     @Override
     public Observable<CategoryModel> getCategory() {
