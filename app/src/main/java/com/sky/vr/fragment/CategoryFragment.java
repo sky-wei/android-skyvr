@@ -9,7 +9,7 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import com.sky.vr.R;
 import com.sky.vr.base.PresenterFragment;
 import com.sky.vr.contract.CategoryContract;
-import com.sky.vr.model.CategoryModel;
+import com.sky.vr.data.model.CategoryModel;
 import com.sky.vr.presenter.CategoryPresenter;
 
 import org.androidannotations.annotations.EFragment;

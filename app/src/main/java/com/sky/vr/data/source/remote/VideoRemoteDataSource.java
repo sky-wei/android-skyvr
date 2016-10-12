@@ -1,42 +1,64 @@
 package com.sky.vr.data.source.remote;
 
 import com.sky.vr.app.VRConfig;
+import com.sky.vr.data.DataException;
+import com.sky.vr.data.mapper.CategoryMapper;
+import com.sky.vr.data.mapper.ResourceMapper;
+import com.sky.vr.data.model.CategoryModel;
+import com.sky.vr.data.model.ResourceModel;
 import com.sky.vr.data.mojing.TagsResource;
 import com.sky.vr.data.mojing.Tags;
 import com.sky.vr.data.source.VideoDataSource;
-import com.sky.vr.service.VideoService;
+import com.sky.vr.data.service.VideoService;
 
-import java.io.IOException;
-
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
+import rx.functions.Func1;
 
 /**
  * Created by sky on 16-9-29.
  */
 
-public class VideoRemoteDataSource implements VideoDataSource {
+public class VideoRemoteDataSource extends BaseRemoteDataSource implements VideoDataSource {
 
     @Override
-    public Tags getCategory() throws IOException {
+    public Observable<CategoryModel> getCategory() {
 
         VideoService videoService = buildVideoService();
 
-        Response<Tags> response =  videoService.getCategory().execute();
+        return videoService
+                .getCategory()
+                .map(new Func1<Tags, CategoryModel>() {
+                    @Override
+                    public CategoryModel call(Tags tags) {
 
-        return response.body();
+                        CategoryMapper mapper = new CategoryMapper();
+
+                        return mapper.transform(tags);
+                    }
+                });
     }
 
     @Override
-    public void saveCategory(Tags tags) {
+    public void saveCategory(CategoryModel model) {
         // 使用也不做
     }
 
     @Override
-    public Observable<TagsResource> getTagsResource(int resId, int tag, int start, int num) {
+    public Observable<ResourceModel> getTagsResource(int resId, int tag, int start, int num) {
+
+        return getTagsResourceEx(resId, tag, start, num)
+                .map(new Func1<TagsResource, ResourceModel>() {
+                    @Override
+                    public ResourceModel call(TagsResource tagsResource) {
+
+                        ResourceMapper mapper = new ResourceMapper();
+
+                        return mapper.transform(tagsResource);
+                    }
+                });
+    }
+
+    private Observable<TagsResource> getTagsResourceEx(int resId, int tag, int start, int num) {
 
         VideoService videoService = buildVideoService();
 
@@ -49,13 +71,6 @@ public class VideoRemoteDataSource implements VideoDataSource {
     }
 
     private VideoService buildVideoService() {
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VRConfig.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .build();
-
-        return retrofit.create(VideoService.class);
+        return buildService(VideoService.class, VRConfig.BASE_URL);
     }
 }

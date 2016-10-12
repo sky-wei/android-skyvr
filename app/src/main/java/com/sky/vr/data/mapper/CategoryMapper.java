@@ -1,7 +1,7 @@
-package com.sky.vr.mapper;
+package com.sky.vr.data.mapper;
 
 import com.sky.vr.data.mojing.Tags;
-import com.sky.vr.model.CategoryModel;
+import com.sky.vr.data.model.CategoryModel;
 
 import java.util.ArrayList;
 import java.util.List;

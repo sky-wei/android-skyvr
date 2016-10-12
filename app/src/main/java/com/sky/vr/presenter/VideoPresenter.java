@@ -5,12 +5,14 @@ import android.content.Context;
 import com.sky.vr.base.VRBasePresenter;
 import com.sky.vr.contract.VideoContract;
 import com.sky.vr.data.mojing.TagsResource;
-import com.sky.vr.data.source.VideoRepository;
+import com.sky.vr.data.source.VideoDataRepository;
+import com.sky.vr.data.source.VideoDataSource;
+import com.sky.vr.data.source.VideoSourceFactory;
 import com.sky.vr.data.source.local.VideoLocalDataSource;
 import com.sky.vr.data.source.remote.VideoRemoteDataSource;
 import com.sky.vr.event.VideoEvent;
-import com.sky.vr.mapper.ResourceMapper;
-import com.sky.vr.model.ResourceModel;
+import com.sky.vr.data.mapper.ResourceMapper;
+import com.sky.vr.data.model.ResourceModel;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -24,14 +26,13 @@ import rx.schedulers.Schedulers;
 public class VideoPresenter extends VRBasePresenter<VideoEvent> implements VideoContract.Presenter {
 
     private VideoContract.View mView;
-    private VideoRepository mRepository;
+    private VideoDataRepository mRepository;
 
     public VideoPresenter(Context context, VideoContract.View view) {
         super(context);
         mView = view;
         view.setPresenter(this);
-        mRepository = new VideoRepository(
-                new VideoLocalDataSource(getContext()), new VideoRemoteDataSource());
+        mRepository = new VideoDataRepository(new VideoSourceFactory(context));
     }
 
     @Override
@@ -46,15 +47,6 @@ public class VideoPresenter extends VRBasePresenter<VideoEvent> implements Video
 
         mRepository.getTagsResource(resId, tag, 0, 50)
                 .subscribeOn(Schedulers.io())
-                .map(new Func1<TagsResource, ResourceModel>() {
-                    @Override
-                    public ResourceModel call(TagsResource tagsResource) {
-
-                        ResourceMapper mapper = new ResourceMapper();
-
-                        return mapper.transform(tagsResource);
-                    }
-                })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ResourceModel>() {
                     @Override
@@ -64,6 +56,7 @@ public class VideoPresenter extends VRBasePresenter<VideoEvent> implements Video
 
                     @Override
                     public void onError(Throwable e) {
+                        mView.cancelLoading();
                         mView.showMessage("加载数据失败");
                     }
 

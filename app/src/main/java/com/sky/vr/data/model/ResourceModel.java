@@ -1,4 +1,4 @@
-package com.sky.vr.model;
+package com.sky.vr.data.model;
 
 import java.util.List;
 

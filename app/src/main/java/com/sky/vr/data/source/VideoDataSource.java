@@ -1,30 +1,19 @@
 package com.sky.vr.data.source;
 
-import com.sky.vr.data.mojing.TagsResource;
-import com.sky.vr.data.mojing.Tags;
-
-import java.io.IOException;
+import com.sky.vr.data.model.CategoryModel;
+import com.sky.vr.data.model.ResourceModel;
 
 import rx.Observable;
 
 /**
- * Created by sky on 16-9-29.
+ * Created by sky on 16-10-12.
  */
 
 public interface VideoDataSource {
 
-    Tags getCategory() throws IOException;
+    Observable<CategoryModel> getCategory();
 
-    void saveCategory(Tags tags);
+    void saveCategory(CategoryModel model);
 
-    Observable<TagsResource> getTagsResource(int resId, int tag, int start, int num);
-
-    interface Repository {
-
-        Observable<Tags> getCategory();
-
-        void saveCategory(Tags tags);
-
-        Observable<TagsResource> getTagsResource(int resId, int tag, int start, int num);
-    }
+    Observable<ResourceModel> getTagsResource(int resId, int tag, int start, int num);
 }

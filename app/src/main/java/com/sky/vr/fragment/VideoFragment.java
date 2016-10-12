@@ -1,29 +1,21 @@
 package com.sky.vr.fragment;
 
-import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.sky.android.common.adapter.SimpleRecyclerAdapter;
-import com.sky.android.common.base.BaseRecyclerAdapter;
-import com.sky.android.common.base.BaseRecyclerHolder;
 import com.sky.android.common.interfaces.OnItemEventListener;
 import com.sky.vr.R;
 import com.sky.vr.adapter.VideoAdapter;
 import com.sky.vr.base.PresenterFragment;
 import com.sky.vr.contract.VideoContract;
-import com.sky.vr.model.ResourceModel;
+import com.sky.vr.data.model.ResourceModel;
 import com.sky.vr.presenter.VideoPresenter;
 
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

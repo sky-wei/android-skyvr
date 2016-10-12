@@ -12,7 +12,7 @@ import com.sky.android.common.adapter.SimpleRecyclerAdapter;
 import com.sky.android.common.base.BaseRecyclerAdapter;
 import com.sky.android.common.base.BaseRecyclerHolder;
 import com.sky.vr.R;
-import com.sky.vr.model.ResourceModel;
+import com.sky.vr.data.model.ResourceModel;
 
 /**
  * Created by starrysky on 16-10-10.

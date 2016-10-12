@@ -5,13 +5,14 @@ import android.content.Context;
 import com.sky.vr.base.VRBasePresenter;
 import com.sky.vr.contract.CategoryContract;
 import com.sky.vr.data.mojing.Tags;
-import com.sky.vr.data.mojing.TagsResource;
-import com.sky.vr.data.source.VideoRepository;
+import com.sky.vr.data.source.VideoDataRepository;
+import com.sky.vr.data.source.VideoDataSource;
+import com.sky.vr.data.source.VideoSourceFactory;
 import com.sky.vr.data.source.local.VideoLocalDataSource;
 import com.sky.vr.data.source.remote.VideoRemoteDataSource;
 import com.sky.vr.event.VideoEvent;
-import com.sky.vr.mapper.CategoryMapper;
-import com.sky.vr.model.CategoryModel;
+import com.sky.vr.data.mapper.CategoryMapper;
+import com.sky.vr.data.model.CategoryModel;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -25,14 +26,13 @@ import rx.schedulers.Schedulers;
 public class CategoryPresenter extends VRBasePresenter<VideoEvent> implements CategoryContract.Presenter {
 
     private CategoryContract.View mView;
-    private VideoRepository mRepository;
+    private VideoDataRepository mRepository;
 
     public CategoryPresenter(Context context, CategoryContract.View view) {
         super(context);
         mView = view;
         view.setPresenter(this);
-        mRepository = new VideoRepository(
-                new VideoLocalDataSource(getContext()), new VideoRemoteDataSource());
+        mRepository = new VideoDataRepository(new VideoSourceFactory(context));
     }
 
     @Override
@@ -47,15 +47,6 @@ public class CategoryPresenter extends VRBasePresenter<VideoEvent> implements Ca
 
         mRepository.getCategory()
                 .subscribeOn(Schedulers.io())
-                .map(new Func1<Tags, CategoryModel>() {
-                    @Override
-                    public CategoryModel call(Tags tags) {
-
-                        CategoryMapper mapper = new CategoryMapper();
-
-                        return mapper.transform(tags);
-                    }
-                })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<CategoryModel>() {
                     @Override
@@ -65,6 +56,7 @@ public class CategoryPresenter extends VRBasePresenter<VideoEvent> implements Ca
 
                     @Override
                     public void onError(Throwable e) {
+                        mView.cancelLoading();
                         mView.showMessage("获取标题列表失败");
                     }
 

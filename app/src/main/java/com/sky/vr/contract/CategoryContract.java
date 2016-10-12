@@ -2,10 +2,7 @@ package com.sky.vr.contract;
 
 import com.sky.vr.base.BasePresenter;
 import com.sky.vr.base.BaseView;
-import com.sky.vr.model.CategoryModel;
-
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
+import com.sky.vr.data.model.CategoryModel;
 
 import java.util.List;
 
