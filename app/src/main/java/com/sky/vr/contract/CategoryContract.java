@@ -14,7 +14,7 @@ public interface CategoryContract {
 
     interface View extends BaseView<Presenter> {
 
-        void setCategory(int resId, List<CategoryModel.SubCategory> subCategories);
+        void setCategory(int type, int resId, List<CategoryModel.SubCategory> subCategories);
     }
 
     interface Presenter extends BasePresenter {

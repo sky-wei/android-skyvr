@@ -18,15 +18,15 @@ import com.sky.vr.data.model.ResourceModel;
  * Created by starrysky on 16-10-10.
  */
 
-public class VideoAdapter extends SimpleRecyclerAdapter<ResourceModel.Resource> {
+public class ResDisplayAdapter extends SimpleRecyclerAdapter<ResourceModel.Resource> {
 
-    public VideoAdapter(Context context) {
+    public ResDisplayAdapter(Context context) {
         super(context);
     }
 
     @Override
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup viewGroup, int viewType) {
-        return layoutInflater.inflate(R.layout.item_video, viewGroup, false);
+        return layoutInflater.inflate(R.layout.item_res_display, viewGroup, false);
     }
 
     @Override

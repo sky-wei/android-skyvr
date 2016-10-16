@@ -1,11 +1,11 @@
 package com.sky.vr.data.source.cloud;
 
 import com.sky.vr.app.VRConfig;
-import com.sky.vr.data.DataException;
 import com.sky.vr.data.mapper.CategoryMapper;
 import com.sky.vr.data.mapper.ResourceMapper;
 import com.sky.vr.data.model.CategoryModel;
 import com.sky.vr.data.model.ResourceModel;
+import com.sky.vr.data.mojing.Result;
 import com.sky.vr.data.mojing.TagsResource;
 import com.sky.vr.data.mojing.Tags;
 import com.sky.vr.data.source.VideoDataSource;
@@ -27,13 +27,13 @@ public class CloudVideoDataSource extends CloudDataSource implements VideoDataSo
 
         return videoService
                 .getCategory()
-                .map(new Func1<Tags, CategoryModel>() {
+                .map(new Func1<Result<Tags>, CategoryModel>() {
                     @Override
-                    public CategoryModel call(Tags tags) {
+                    public CategoryModel call(Result<Tags> result) {
 
                         CategoryMapper mapper = new CategoryMapper();
 
-                        return mapper.transform(tags);
+                        return mapper.transform(result);
                     }
                 });
     }
@@ -47,18 +47,18 @@ public class CloudVideoDataSource extends CloudDataSource implements VideoDataSo
     public Observable<ResourceModel> getTagsResource(int resId, int tag, int start, int num) {
 
         return getTagsResourceEx(resId, tag, start, num)
-                .map(new Func1<TagsResource, ResourceModel>() {
+                .map(new Func1<Result<TagsResource>, ResourceModel>() {
                     @Override
-                    public ResourceModel call(TagsResource tagsResource) {
+                    public ResourceModel call(Result<TagsResource> result) {
 
                         ResourceMapper mapper = new ResourceMapper();
 
-                        return mapper.transform(tagsResource);
+                        return mapper.transform(result);
                     }
                 });
     }
 
-    private Observable<TagsResource> getTagsResourceEx(int resId, int tag, int start, int num) {
+    private Observable<Result<TagsResource>> getTagsResourceEx(int resId, int tag, int start, int num) {
 
         VideoService videoService = buildVideoService();
 

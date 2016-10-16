@@ -7,11 +7,11 @@ import android.widget.Toast;
 
 import com.sky.android.common.interfaces.OnItemEventListener;
 import com.sky.vr.R;
-import com.sky.vr.adapter.VideoAdapter;
+import com.sky.vr.adapter.ResDisplayAdapter;
 import com.sky.vr.base.PresenterFragment;
 import com.sky.vr.contract.VideoContract;
 import com.sky.vr.data.model.ResourceModel;
-import com.sky.vr.presenter.VideoPresenter;
+import com.sky.vr.presenter.ResDispalyPresenter;
 
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
@@ -21,33 +21,36 @@ import java.util.List;
 /**
  * Created by sky on 16-9-27.
  */
-@EFragment(R.layout.fragment_page)
-public class VideoFragment extends PresenterFragment<VideoContract.Presenter>
+@EFragment(R.layout.fragment_res_display)
+public class ResDisplayFragment extends PresenterFragment<VideoContract.Presenter>
         implements VideoContract.View, OnItemEventListener {
 
     @ViewById(R.id.recycler_view)
     public RecyclerView recycler_view;
 
-    private int resId;
-    private int tag;
-
-    private VideoAdapter mViewAdapter;
+    private ResDisplayAdapter mViewAdapter;
 
     @Override
     public void initView() {
 
-        // 获取参数信息
-        resId = getArguments().getInt("resId");
-        tag = getArguments().getInt("tag");
-
-        mViewAdapter = new VideoAdapter(getContext());
+        mViewAdapter = new ResDisplayAdapter(getContext());
         mViewAdapter.setOnItemEventListener(this);
         recycler_view.setLayoutManager(new GridLayoutManager(getContext(), 2));
         recycler_view.setAdapter(mViewAdapter);
 
         // 初始化
-        mPresenter = new VideoPresenter(getContext(), this);
-        mPresenter.loadTagsResource(resId, tag);
+        mPresenter = new ResDispalyPresenter(getContext(), getArguments(), this);
+        mPresenter.loadTagsResource();
+    }
+
+    @Override
+    public void showLoading() {
+//        super.showLoading();
+    }
+
+    @Override
+    public void cancelLoading() {
+//        super.cancelLoading();
     }
 
     @Override

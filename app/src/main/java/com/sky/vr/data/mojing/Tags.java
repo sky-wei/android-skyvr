@@ -8,109 +8,43 @@ import java.util.List;
 
 public class Tags {
 
-    private int status;
-    private String status_msg;
-    private int channel;
-    private long date;
-    private String language;
-    private int data_type;
-    private Data data;
+    List<Category> list;
+    private String url;
+    private String type;
+    private String subtype;
 
-    public int getStatus() {
-        return status;
+    public List<Category> getList() {
+        return list;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setList(List<Category> list) {
+        this.list = list;
     }
 
-    public String getStatus_msg() {
-        return status_msg;
+    public String getUrl() {
+        return url;
     }
 
-    public void setStatus_msg(String status_msg) {
-        this.status_msg = status_msg;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
-    public int getChannel() {
-        return channel;
+    public String getType() {
+        return type;
     }
 
-    public void setChannel(int channel) {
-        this.channel = channel;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public long getDate() {
-        return date;
+    public String getSubtype() {
+        return subtype;
     }
 
-    public void setDate(long date) {
-        this.date = date;
+    public void setSubtype(String subtype) {
+        this.subtype = subtype;
     }
 
-    public String getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
-    }
-
-    public int getData_type() {
-        return data_type;
-    }
-
-    public void setData_type(int data_type) {
-        this.data_type = data_type;
-    }
-
-    public Data getData() {
-        return data;
-    }
-
-    public void setData(Data data) {
-        this.data = data;
-    }
-
-    public static class Data {
-
-        List<Category> list;
-        private String url;
-        private String type;
-        private String subtype;
-
-        public List<Category> getList() {
-            return list;
-        }
-
-        public void setList(List<Category> list) {
-            this.list = list;
-        }
-
-        public String getUrl() {
-            return url;
-        }
-
-        public void setUrl(String url) {
-            this.url = url;
-        }
-
-        public String getType() {
-            return type;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-        }
-
-        public String getSubtype() {
-            return subtype;
-        }
-
-        public void setSubtype(String subtype) {
-            this.subtype = subtype;
-        }
-    }
 
     public static class Category {
 

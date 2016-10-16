@@ -33,12 +33,12 @@ public class CategoryFragment extends PresenterFragment<CategoryContract.Present
     public void initView() {
 
         // 初始化
-        mPresenter = new CategoryPresenter(getContext(), this);
+        mPresenter = new CategoryPresenter(getContext(), getArguments(), this);
         mPresenter.loadCategory();
     }
 
     @Override
-    public void setCategory(int resId, List<CategoryModel.SubCategory> subCategories) {
+    public void setCategory(int type, int resId, List<CategoryModel.SubCategory> subCategories) {
 
         FragmentPagerItems.Creator creator = FragmentPagerItems.with(getContext());
 
@@ -47,10 +47,11 @@ public class CategoryFragment extends PresenterFragment<CategoryContract.Present
             CategoryModel.SubCategory subCategory = subCategories.get(i);
 
             Bundle args = new Bundle();
+            args.putInt("type", type);
             args.putInt("resId", resId);
             args.putInt("tag", subCategory.getId());
 
-            creator.add(subCategory.getName(), VideoFragment_.class, args);
+            creator.add(subCategory.getName(), ResDisplayFragment_.class, args);
         }
 
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(

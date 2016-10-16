@@ -1,5 +1,6 @@
 package com.sky.vr.data.mapper;
 
+import com.sky.vr.data.mojing.Result;
 import com.sky.vr.data.mojing.Tags;
 import com.sky.vr.data.model.CategoryModel;
 
@@ -10,16 +11,20 @@ import java.util.List;
  * Created by sky on 16-10-8.
  */
 
-public class CategoryMapper {
+public class CategoryMapper extends BaseMapper {
+
+    public CategoryModel transform(Result<Tags> result) {
+        return transform(getData(result));
+    }
 
     public CategoryModel transform(Tags tags) {
 
-        if (tags == null || tags.getStatus() != 0) return null;
+        if (tags == null) return null;
 
         CategoryModel model = new CategoryModel();
 
-        model.setUrl(tags.getData().getUrl());
-        model.setCategories(transform(tags.getData().getList()));
+        model.setUrl(tags.getUrl());
+        model.setCategories(transform(tags.getList()));
 
         return model;
     }

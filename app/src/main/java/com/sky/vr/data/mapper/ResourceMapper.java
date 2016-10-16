@@ -1,7 +1,8 @@
 package com.sky.vr.data.mapper;
 
-import com.sky.vr.data.mojing.TagsResource;
 import com.sky.vr.data.model.ResourceModel;
+import com.sky.vr.data.mojing.Result;
+import com.sky.vr.data.mojing.TagsResource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,24 +11,21 @@ import java.util.List;
  * Created by starrysky on 16-10-10.
  */
 
-public class ResourceMapper {
+public class ResourceMapper extends BaseMapper {
+
+    public ResourceModel transform(Result<TagsResource> result) {
+        return transform(getData(result));
+    }
 
     public ResourceModel transform(TagsResource tagsResource) {
 
-        if (tagsResource == null || 0 != tagsResource.getStatus()) return null;
-
-        return transform(tagsResource.getData());
-    }
-
-    public ResourceModel transform(TagsResource.Data data) {
-
-        if (data == null) return null;
+        if (tagsResource == null) return null;
 
         ResourceModel model = new ResourceModel();
 
-        model.setTitle(data.getTitle());
-        model.setTotal(data.getTotal());
-        model.setResources(transform(data.getList()));
+        model.setTitle(tagsResource.getTitle());
+        model.setTotal(tagsResource.getTotal());
+        model.setResources(transform(tagsResource.getList()));
 
         return model;
     }

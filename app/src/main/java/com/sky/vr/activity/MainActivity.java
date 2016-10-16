@@ -1,5 +1,6 @@
 package com.sky.vr.activity;
 
+import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -8,14 +9,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.sky.vr.R;
 import com.sky.vr.base.VRBaseActivity;
 import com.sky.vr.fragment.AboutFragment_;
+import com.sky.vr.fragment.CategoryFragment;
 import com.sky.vr.fragment.CategoryFragment_;
 import com.sky.vr.fragment.SettingFragment;
-import com.sky.vr.fragment.VideoFragment_;
+import com.sky.vr.presenter.CategoryPresenter;
 
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
@@ -23,6 +24,9 @@ import org.androidannotations.annotations.ViewById;
 @EActivity(R.layout.activity_main)
 public class MainActivity extends VRBaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    public static final int ID_VIDEO = 0x0001;
+    public static final int ID_PICTURE = 0x0002;
 
     @ViewById(R.id.toolbar)
     Toolbar toolbar;
@@ -46,7 +50,7 @@ public class MainActivity extends VRBaseActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         // 切换到视频界面
-        switchFragment(CategoryFragment_.class);
+        switchFragment(ID_VIDEO);
     }
 
     @Override
@@ -67,11 +71,12 @@ public class MainActivity extends VRBaseActivity
 
         if (id == R.id.nav_video) {
             // 切换到视频界面
-            switchFragment(CategoryFragment_.class);
+            switchFragment(ID_VIDEO);
         } else if (id == R.id.nav_game) {
 
         } else if (id == R.id.nav_picture) {
-
+            // 切换到图片界面
+            switchFragment(ID_PICTURE);
         } else if (id == R.id.nav_manager) {
 
         } else if (id == R.id.nav_settings) {
@@ -96,20 +101,48 @@ public class MainActivity extends VRBaseActivity
         return true;
     }
 
-    private void switchFragment(Class<? extends Fragment> classes) {
+    private void switchFragment(int id) {
 
-        if (classes == null) return ;
+        Class tClass = null;
+        Bundle args = buildDefalutArgs(id);
+
+        if (ID_VIDEO == id) {
+            tClass = CategoryFragment_.class;
+            args.putInt("type", CategoryPresenter.TYPE_VIDEO);
+        } else if (ID_PICTURE == id) {
+            tClass = CategoryFragment_.class;
+            args.putInt("type", CategoryPresenter.TYPE_PICTURE);
+        }
+
+        switchFragment(tClass, args);
+    }
+
+    private void switchFragment(Class<? extends Fragment> classes, Bundle args) {
+
+        if (classes == null || args == null) return ;
 
         FragmentManager manager = getSupportFragmentManager();
         Fragment curFragment = manager.findFragmentById(R.id.fl_content);
 
+        // ID
+        int id = args.getInt("id", -1);
+
         if (curFragment != null
-                && classes.equals(curFragment.getClass())) {
+                && classes.equals(curFragment.getClass())
+                && id == curFragment.getArguments().getInt("id", -1)) {
             // 相同的，不需要处理
             return ;
         }
 
-        Fragment fragment = Fragment.instantiate(getContext(), classes.getName());
+        Fragment fragment = Fragment.instantiate(getContext(), classes.getName(), args);
         getSupportFragmentManager().beginTransaction().replace(R.id.fl_content, fragment).commit();
+    }
+
+    private Bundle buildDefalutArgs(int id) {
+
+        Bundle args = new Bundle();
+        args.putInt("id", id);
+
+        return args;
     }
 }
