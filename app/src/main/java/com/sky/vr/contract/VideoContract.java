@@ -14,7 +14,7 @@ public interface VideoContract {
 
     interface View extends BaseView<Presenter> {
 
-        void appendTagsResource(List<ResourceModel.Resource> resources);
+        void setTagsResource(List<ResourceModel.Resource> resources);
     }
 
     interface Presenter extends BasePresenter {

@@ -54,7 +54,7 @@ public class ResDisplayFragment extends PresenterFragment<VideoContract.Presente
     }
 
     @Override
-    public void appendTagsResource(List<ResourceModel.Resource> resources) {
+    public void setTagsResource(List<ResourceModel.Resource> resources) {
         // 设置内容
         mViewAdapter.setItems(resources);
         mViewAdapter.notifyDataSetChanged();

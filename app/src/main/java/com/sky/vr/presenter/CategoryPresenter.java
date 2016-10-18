@@ -3,6 +3,8 @@ package com.sky.vr.presenter;
 import android.content.Context;
 import android.os.Bundle;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.GlideBuilder;
 import com.sky.vr.base.BaseSubcriber;
 import com.sky.vr.base.VRBasePresenter;
 import com.sky.vr.contract.CategoryContract;

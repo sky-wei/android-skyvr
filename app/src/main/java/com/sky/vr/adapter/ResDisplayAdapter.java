@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.bumptech.glide.Glide;
 import com.sky.android.common.adapter.SimpleRecyclerAdapter;
 import com.sky.android.common.base.BaseRecyclerAdapter;
 import com.sky.android.common.base.BaseRecyclerHolder;
@@ -36,7 +36,6 @@ public class ResDisplayAdapter extends SimpleRecyclerAdapter<ResourceModel.Resou
 
     public class VideoHolder extends BaseRecyclerHolder<ResourceModel.Resource> implements View.OnClickListener {
 
-        private ImageLoader mImageLoader;
         private ImageView iv_image;
         private TextView tv_title;
         private TextView tv_subtitle;
@@ -47,8 +46,6 @@ public class ResDisplayAdapter extends SimpleRecyclerAdapter<ResourceModel.Resou
 
         @Override
         public void onInitialize() {
-
-            mImageLoader = ImageLoader.getInstance();
 
             iv_image = (ImageView) findViewById(R.id.iv_image);
             tv_title = (TextView) findViewById(R.id.tv_title);
@@ -62,7 +59,11 @@ public class ResDisplayAdapter extends SimpleRecyclerAdapter<ResourceModel.Resou
 
             ResourceModel.Resource resource = getItem(position);
 
-            mImageLoader.displayImage(resource.getPicUrl(), iv_image);
+            Glide.with(getContext())
+                    .load(resource.getPicUrl())
+                    .crossFade()
+                    .into(iv_image);
+
             tv_title.setText(resource.getTitle());
             tv_subtitle.setText(resource.getSubtitle());
         }

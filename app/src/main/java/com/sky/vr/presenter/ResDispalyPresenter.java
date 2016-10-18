@@ -68,7 +68,7 @@ public class ResDispalyPresenter extends VRBasePresenter<VideoEvent> implements 
                     @Override
                     public void onNext(ResourceModel model) {
                         // 暂时不分页
-                        mView.appendTagsResource(model.getResources());
+                        mView.setTagsResource(model.getResources());
                     }
                 });
     }
