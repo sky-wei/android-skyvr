@@ -49,7 +49,7 @@ public class ResDispalyPresenter extends VRBasePresenter<VideoEvent> implements 
 
         mView.showLoading();
 
-        mRepository.getTagsResource(mResId, mTag, 0, 50)
+        mRepository.getTagsResource(mResId, mTag, 0, 10)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubcriber<ResourceModel>() {

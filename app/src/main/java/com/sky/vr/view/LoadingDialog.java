@@ -4,6 +4,7 @@ package com.sky.vr.view;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.widget.TextView;
 
@@ -28,6 +29,7 @@ public class LoadingDialog extends Dialog {
         mCancelCallback = cancelCallback;
 
         setContentView(R.layout.dialog_loading);
+        getWindow().setGravity(Gravity.CENTER);
 
         tipText = (TextView) findViewById(R.id.tipTextView);
     }
