@@ -1,6 +1,7 @@
 package com.sky.vr.activity;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,33 +13,35 @@ import android.view.MenuItem;
 
 import com.sky.vr.R;
 import com.sky.vr.base.VRBaseActivity;
-import com.sky.vr.fragment.AboutFragment_;
+import com.sky.vr.fragment.AboutFragment;
 import com.sky.vr.fragment.CategoryFragment;
-import com.sky.vr.fragment.CategoryFragment_;
 import com.sky.vr.fragment.SettingFragment;
 import com.sky.vr.presenter.CategoryPresenter;
 
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
-@EActivity(R.layout.activity_main)
 public class MainActivity extends VRBaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final int ID_VIDEO = 0x0001;
     public static final int ID_PICTURE = 0x0002;
 
-    @ViewById(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
 
-    @ViewById(R.id.drawer_layout)
+    @BindView(R.id.drawer_layout)
     DrawerLayout drawer;
 
-    @ViewById(R.id.nav_view)
+    @BindView(R.id.nav_view)
     NavigationView navigationView;
 
     @Override
-    public void initView() {
+    protected void initView() {
+
+        setContentView(R.layout.activity_main);
+
+        ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
 
@@ -67,6 +70,9 @@ public class MainActivity extends VRBaseActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
 
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+
         int id = item.getItemId();
 
         if (id == R.id.nav_video) {
@@ -81,23 +87,13 @@ public class MainActivity extends VRBaseActivity
 
         } else if (id == R.id.nav_settings) {
             // 进入设置界面
-            CommonActivity_
-                    .intent(getContext())
-                    .title(R.string.settings)
-                    .fname(SettingFragment.class.getName())
-                    .supportFragment(false)
-                    .start();
+            CommonActivity.startCommonActivity(
+                    this, R.string.settings, SettingFragment.class.getName(), false);
         } else if (id == R.id.nav_about) {
             // 进入关于界面
-            CommonActivity_
-                    .intent(getContext())
-                    .title(R.string.about)
-                    .fname(AboutFragment_.class.getName())
-                    .start();
+            CommonActivity.startCommonActivity(
+                    this, R.string.about, AboutFragment.class.getName());
         }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
@@ -107,10 +103,10 @@ public class MainActivity extends VRBaseActivity
         Bundle args = buildDefalutArgs(id);
 
         if (ID_VIDEO == id) {
-            tClass = CategoryFragment_.class;
+            tClass = CategoryFragment.class;
             args.putInt("type", CategoryPresenter.TYPE_VIDEO);
         } else if (ID_PICTURE == id) {
-            tClass = CategoryFragment_.class;
+            tClass = CategoryFragment.class;
             args.putInt("type", CategoryPresenter.TYPE_PICTURE);
         }
 

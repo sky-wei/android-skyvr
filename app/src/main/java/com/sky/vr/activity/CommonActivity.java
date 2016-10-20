@@ -1,5 +1,9 @@
 package com.sky.vr.activity;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
@@ -8,51 +12,67 @@ import android.support.v7.widget.Toolbar;
 import com.sky.vr.R;
 import com.sky.vr.base.VRBaseActivity;
 
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.Extra;
-import org.androidannotations.annotations.ViewById;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by sky on 16-10-9.
  */
-@EActivity(R.layout.app_bar_frame)
 public class CommonActivity extends VRBaseActivity {
 
-    @Extra
-    int title;
-
-    @Extra
-    String fname;
-
-    @Extra
-    boolean supportFragment = true;
-
-    @ViewById(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
 
+    private int mTitle;
+    private String mFname;
+    private boolean mSupportFragment;
+
+    public static void startCommonActivity(Context context, int title, String fname) {
+        startCommonActivity(context, title, fname, true);
+    }
+
+    public static void startCommonActivity(Context context, int title, String fname, boolean supportFragment) {
+
+        Intent intent = new Intent(context, CommonActivity.class);
+        intent.putExtra("title", title);
+        intent.putExtra("fname", fname);
+        intent.putExtra("supportFragment", supportFragment);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        context.startActivity(intent);
+    }
+
     @Override
-    public void initView() {
+    protected void initView() {
+
+        mTitle = getIntent().getIntExtra("title", R.string.app_name);
+        mFname = getIntent().getStringExtra("fname");
+        mSupportFragment = getIntent().getBooleanExtra("supportFragment", true);
+
+        setContentView(R.layout.app_bar_frame);
+
+        ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
 
         // 设置ActivonBar
         ActionBar actionBar = getSupportActionBar();
 
-        actionBar.setTitle(title);
+        actionBar.setTitle(mTitle);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        if (supportFragment) {
+        if (mSupportFragment) {
 
             // SupportFragment
             FragmentManager fragmentManager = getSupportFragmentManager();
-            Fragment fragment = Fragment.instantiate(this, fname);
+            Fragment fragment = Fragment.instantiate(this, mFname);
             fragmentManager.beginTransaction().add(R.id.frame, fragment).commit();
             return ;
         }
 
         // Fragment
         android.app.FragmentManager fragmentManager = getFragmentManager();
-        android.app.Fragment fragment = android.app.Fragment.instantiate(this, fname);
+        android.app.Fragment fragment = android.app.Fragment.instantiate(this, mFname);
         fragmentManager.beginTransaction().add(R.id.frame, fragment).commit();
     }
 }

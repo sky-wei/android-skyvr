@@ -2,6 +2,9 @@ package com.sky.vr.fragment;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
@@ -12,25 +15,35 @@ import com.sky.vr.contract.CategoryContract;
 import com.sky.vr.data.model.CategoryModel;
 import com.sky.vr.presenter.CategoryPresenter;
 
-import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.ViewById;
-
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by sky on 16-9-28.
  */
-@EFragment(R.layout.fragment_category)
 public class CategoryFragment extends PresenterFragment<CategoryContract.Presenter> implements CategoryContract.View {
 
-    @ViewById(R.id.viewpagertab)
+    @BindView(R.id.viewpagertab)
     SmartTabLayout smartTabLayout;
 
-    @ViewById(R.id.viewpager)
+    @BindView(R.id.viewpager)
     ViewPager viewPager;
 
     @Override
-    public void initView() {
+    protected void initData() {
+
+    }
+
+    @Override
+    protected View createView(LayoutInflater inflater, ViewGroup container) {
+        return inflater.inflate(R.layout.fragment_category, container, false);
+    }
+
+    @Override
+    protected void initView(View view) {
+        ButterKnife.bind(this, view);
 
         // 初始化
         mPresenter = new CategoryPresenter(getContext(), getArguments(), this);
@@ -51,7 +64,7 @@ public class CategoryFragment extends PresenterFragment<CategoryContract.Present
             args.putInt("resId", resId);
             args.putInt("tag", subCategory.getId());
 
-            creator.add(subCategory.getName(), ResDisplayFragment_.class, args);
+            creator.add(subCategory.getName(), ResDisplayFragment.class, args);
         }
 
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(

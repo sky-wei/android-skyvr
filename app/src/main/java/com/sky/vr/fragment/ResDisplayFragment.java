@@ -5,7 +5,9 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.sky.android.common.interfaces.OnItemEventListener;
@@ -17,28 +19,38 @@ import com.sky.vr.data.model.ResourceModel;
 import com.sky.vr.presenter.ResDispalyPresenter;
 import com.sky.vr.util.decoration.GridSpacingItemDecoration;
 
-import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.ViewById;
-
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by sky on 16-9-27.
  */
-@EFragment(R.layout.fragment_res_display)
 public class ResDisplayFragment extends PresenterFragment<VideoContract.Presenter>
         implements VideoContract.View, OnItemEventListener, SwipeRefreshLayout.OnRefreshListener {
 
-    @ViewById(R.id.swip_refresh_layout)
+    @BindView(R.id.swip_refresh_layout)
     SwipeRefreshLayout swip_refresh_layout;
 
-    @ViewById(R.id.recycler_view)
+    @BindView(R.id.recycler_view)
     RecyclerView recycler_view;
 
     private ResDisplayAdapter mViewAdapter;
 
     @Override
-    public void initView() {
+    protected void initData() {
+
+    }
+
+    @Override
+    protected View createView(LayoutInflater inflater, ViewGroup container) {
+        return inflater.inflate(R.layout.fragment_res_display, container, false);
+    }
+
+    @Override
+    protected void initView(View view) {
+        ButterKnife.bind(this, view);
 
         mViewAdapter = new ResDisplayAdapter(getContext());
         mViewAdapter.setOnItemEventListener(this);

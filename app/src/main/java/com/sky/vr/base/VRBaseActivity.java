@@ -1,16 +1,21 @@
 package com.sky.vr.base;
 
-import com.sky.android.common.base.BaseActivity;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.EActivity;
+import com.sky.android.common.base.BaseActivity;
 
 /**
  * Created by sky on 16-9-27.
  */
-@EActivity
 public abstract class VRBaseActivity extends BaseActivity {
 
-    @AfterViews
-    public abstract void initView();
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        initView();
+    }
+
+    protected abstract void initView();
 }
