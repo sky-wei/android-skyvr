@@ -1,7 +1,7 @@
 package com.sky.vr.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -37,11 +37,13 @@ public class MainActivity extends VRBaseActivity
     NavigationView navigationView;
 
     @Override
-    protected void initView() {
-
+    protected void setContentView() {
         setContentView(R.layout.activity_main);
-
         ButterKnife.bind(this);
+    }
+
+    @Override
+    protected void initView(Intent intent) {
 
         setSupportActionBar(toolbar);
 

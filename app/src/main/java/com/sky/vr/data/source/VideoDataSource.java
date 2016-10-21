@@ -13,7 +13,5 @@ public interface VideoDataSource {
 
     Observable<CategoryModel> getCategory();
 
-    void saveCategory(CategoryModel model);
-
     Observable<ResourceModel> getTagsResource(int resId, int tag, int start, int num);
 }

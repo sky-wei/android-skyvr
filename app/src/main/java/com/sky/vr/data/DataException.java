@@ -6,7 +6,8 @@ package com.sky.vr.data;
 
 public class DataException extends RuntimeException {
 
-    public static final int CUSTOM_CODE = 0x0001;
+    public static final int CODE_UNKNOWN = 0x0000;
+    public static final int CODE_CUSTOM = 0x0001;
 
     private int code;
 

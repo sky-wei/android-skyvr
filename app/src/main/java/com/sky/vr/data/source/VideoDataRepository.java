@@ -13,31 +13,19 @@ import rx.functions.Func1;
 
 public class VideoDataRepository implements VideoDataSource {
 
-    private VideoSourceFactory mVideoSourceFactory;
-
     private VideoDataSource mLocal;
     private VideoDataSource mRemote;
 
     public VideoDataRepository(VideoSourceFactory videoSourceFactory) {
-        mVideoSourceFactory = videoSourceFactory;
-
-        mLocal = mVideoSourceFactory.createLocalSource();
-        mRemote = mVideoSourceFactory.createRemoteSource();
+        mLocal = videoSourceFactory.createLocalSource();
+        mRemote = videoSourceFactory.createRemoteSource();
     }
 
     @Override
     public Observable<CategoryModel> getCategory() {
 
         Observable<CategoryModel> localObservable = mLocal.getCategory();
-        Observable<CategoryModel> remoteObservable = mRemote
-                .getCategory()
-                .doOnNext(new Action1<CategoryModel>() {
-                    @Override
-                    public void call(CategoryModel model) {
-                        // 保存缓存到本地
-                        saveCategory(model);
-                    }
-                });
+        Observable<CategoryModel> remoteObservable = mRemote.getCategory();
 
         return Observable
                 .concat(localObservable, remoteObservable)
@@ -47,13 +35,6 @@ public class VideoDataRepository implements VideoDataSource {
                         return model != null;
                     }
                 });
-    }
-
-    @Override
-    public void saveCategory(CategoryModel model) {
-        // 保存数据
-        mLocal.saveCategory(model);
-        mRemote.saveCategory(model);
     }
 
     @Override

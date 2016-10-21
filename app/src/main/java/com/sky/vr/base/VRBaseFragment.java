@@ -13,14 +13,6 @@ import com.sky.android.common.base.BaseFragment;
  */
 public abstract class VRBaseFragment extends BaseFragment {
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        // 初始化数据
-        initData();
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -32,14 +24,10 @@ public abstract class VRBaseFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         // 初始化View
-        initView(view);
-    }
-
-    protected void initData() {
-
+        initView(view, getArguments());
     }
 
     protected abstract View createView(LayoutInflater inflater, ViewGroup container);
 
-    protected abstract void initView(View view);
+    protected abstract void initView(View view, Bundle args);
 }

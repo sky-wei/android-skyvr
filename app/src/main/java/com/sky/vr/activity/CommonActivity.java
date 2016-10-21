@@ -2,11 +2,8 @@ package com.sky.vr.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 
 import com.sky.vr.R;
@@ -43,36 +40,32 @@ public class CommonActivity extends VRBaseActivity {
     }
 
     @Override
-    protected void initView() {
-
-        mTitle = getIntent().getIntExtra("title", R.string.app_name);
-        mFname = getIntent().getStringExtra("fname");
-        mSupportFragment = getIntent().getBooleanExtra("supportFragment", true);
-
+    protected void setContentView() {
         setContentView(R.layout.app_bar_frame);
-
         ButterKnife.bind(this);
+    }
 
-        setSupportActionBar(toolbar);
+    @Override
+    protected void initView(Intent intent) {
 
-        // 设置ActivonBar
-        ActionBar actionBar = getSupportActionBar();
+        mTitle = intent.getIntExtra("title", R.string.app_name);
+        mFname = intent.getStringExtra("fname");
+        mSupportFragment = intent.getBooleanExtra("supportFragment", true);
 
-        actionBar.setTitle(mTitle);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        // 设置ActionBar
+        setSupportActionBar(toolbar, mTitle, true);
 
         if (mSupportFragment) {
-
             // SupportFragment
             FragmentManager fragmentManager = getSupportFragmentManager();
             Fragment fragment = Fragment.instantiate(this, mFname);
-            fragmentManager.beginTransaction().add(R.id.frame, fragment).commit();
+            fragmentManager.beginTransaction().replace(R.id.frame, fragment).commit();
             return ;
         }
 
         // Fragment
         android.app.FragmentManager fragmentManager = getFragmentManager();
         android.app.Fragment fragment = android.app.Fragment.instantiate(this, mFname);
-        fragmentManager.beginTransaction().add(R.id.frame, fragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.frame, fragment).commit();
     }
 }

@@ -9,10 +9,10 @@ import com.sky.vr.view.LoadingDialog;
  * Created by sky on 16-9-28.
  */
 
-public abstract class PresenterFragment<T extends BasePresenter> extends VRBaseFragment implements BaseView<T> {
+public abstract class PresenterFragment<T extends BasePresenter> extends VRBaseFragment implements BaseView {
 
     protected T mPresenter;
-    private LoadingDialog mLoadingDialog;
+    protected LoadingDialog mLoadingDialog;
 
     @Override
     public void onResume() {
@@ -68,7 +68,6 @@ public abstract class PresenterFragment<T extends BasePresenter> extends VRBaseF
         Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
     public void setPresenter(T presenter) {
         mPresenter = presenter;
     }

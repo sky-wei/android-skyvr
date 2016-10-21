@@ -3,15 +3,15 @@ package com.sky.vr.presenter;
 import android.content.Context;
 import android.os.Bundle;
 
-import com.sky.vr.base.BaseSubcriber;
+import com.sky.vr.base.BaseSubscriber;
 import com.sky.vr.base.VRBasePresenter;
 import com.sky.vr.contract.VideoContract;
+import com.sky.vr.data.cache.impl.VideoCacheImpl;
 import com.sky.vr.data.source.VideoDataRepository;
 import com.sky.vr.data.source.VideoSourceFactory;
 import com.sky.vr.event.VideoEvent;
 import com.sky.vr.data.model.ResourceModel;
 
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -33,7 +33,6 @@ public class ResDispalyPresenter extends VRBasePresenter<VideoEvent> implements 
         mResId = args.getInt("resId");
         mTag = args.getInt("tag");
         mView = view;
-        view.setPresenter(this);
         mRepository = new VideoDataRepository(new VideoSourceFactory(context));
     }
 
@@ -52,7 +51,7 @@ public class ResDispalyPresenter extends VRBasePresenter<VideoEvent> implements 
         mRepository.getTagsResource(mResId, mTag, 0, 10)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubcriber<ResourceModel>() {
+                .subscribe(new BaseSubscriber<ResourceModel>() {
                     @Override
                     public void onCompleted() {
                         mView.cancelLoading();

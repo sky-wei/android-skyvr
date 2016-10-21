@@ -12,7 +12,7 @@ public abstract class BaseMapper {
     public <T> T getData(Result<T> result) {
 
         if (result == null) {
-            throw new DataException("后台数据为NULL", DataException.CUSTOM_CODE);
+            throw new DataException("后台数据为NULL", DataException.CODE_CUSTOM);
         }
 
         if (result.getStatus() != 0) {

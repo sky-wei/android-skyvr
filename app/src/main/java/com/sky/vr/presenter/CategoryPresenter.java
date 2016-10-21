@@ -3,18 +3,14 @@ package com.sky.vr.presenter;
 import android.content.Context;
 import android.os.Bundle;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.GlideBuilder;
-import com.sky.vr.base.BaseSubcriber;
+import com.sky.vr.base.BaseSubscriber;
 import com.sky.vr.base.VRBasePresenter;
 import com.sky.vr.contract.CategoryContract;
 import com.sky.vr.data.source.VideoDataRepository;
 import com.sky.vr.data.source.VideoSourceFactory;
 import com.sky.vr.event.VideoEvent;
 import com.sky.vr.data.model.CategoryModel;
-import com.sky.vr.fragment.CategoryFragment;
 
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -36,7 +32,6 @@ public class CategoryPresenter extends VRBasePresenter<VideoEvent> implements Ca
         // 分类类型
         mType = args.getInt("type", TYPE_VIDEO);;
         mView = view;
-        view.setPresenter(this);
         mRepository = new VideoDataRepository(new VideoSourceFactory(context));
     }
 
@@ -53,7 +48,7 @@ public class CategoryPresenter extends VRBasePresenter<VideoEvent> implements Ca
         mRepository.getCategory()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubcriber<CategoryModel>() {
+                .subscribe(new BaseSubscriber<CategoryModel>() {
                     @Override
                     public void onCompleted() {
                         mView.cancelLoading();

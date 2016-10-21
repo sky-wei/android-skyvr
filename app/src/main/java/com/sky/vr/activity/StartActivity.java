@@ -13,7 +13,7 @@ import com.sky.vr.base.VRBaseActivity;
 public class StartActivity extends VRBaseActivity {
 
     @Override
-    protected void initView() {
+    protected void setContentView() {
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(
@@ -21,10 +21,14 @@ public class StartActivity extends VRBaseActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_start);
+    }
 
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
+    @Override
+    protected void initView(Intent intent) {
+
+        Intent intent1 = new Intent(this, MainActivity.class);
+        intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent1);
 
         finish();
     }

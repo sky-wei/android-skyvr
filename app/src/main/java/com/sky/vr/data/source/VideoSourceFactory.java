@@ -2,6 +2,8 @@ package com.sky.vr.data.source;
 
 import android.content.Context;
 
+import com.sky.vr.data.cache.VideoCache;
+import com.sky.vr.data.cache.impl.VideoCacheImpl;
 import com.sky.vr.data.source.disk.DiskVideoDataSource;
 import com.sky.vr.data.source.cloud.CloudVideoDataSource;
 
@@ -12,9 +14,11 @@ import com.sky.vr.data.source.cloud.CloudVideoDataSource;
 public class VideoSourceFactory {
 
     private Context mContext;
+    private VideoCache mCache;
 
     public VideoSourceFactory(Context context) {
         mContext = context;
+        mCache = VideoCacheImpl.getVideoCache(context);
     }
 
     public VideoDataSource create() {
@@ -22,10 +26,10 @@ public class VideoSourceFactory {
     }
 
     public VideoDataSource createLocalSource() {
-        return new DiskVideoDataSource(mContext);
+        return new DiskVideoDataSource(mContext, mCache);
     }
 
     public VideoDataSource createRemoteSource() {
-        return new CloudVideoDataSource();
+        return new CloudVideoDataSource(mCache);
     }
 }

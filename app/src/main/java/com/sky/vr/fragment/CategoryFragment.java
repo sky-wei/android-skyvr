@@ -32,17 +32,12 @@ public class CategoryFragment extends PresenterFragment<CategoryContract.Present
     ViewPager viewPager;
 
     @Override
-    protected void initData() {
-
-    }
-
-    @Override
     protected View createView(LayoutInflater inflater, ViewGroup container) {
         return inflater.inflate(R.layout.fragment_category, container, false);
     }
 
     @Override
-    protected void initView(View view) {
+    protected void initView(View view, Bundle args) {
         ButterKnife.bind(this, view);
 
         // 初始化

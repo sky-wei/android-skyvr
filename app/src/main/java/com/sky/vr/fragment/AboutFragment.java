@@ -2,6 +2,7 @@ package com.sky.vr.fragment;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,7 @@ public class AboutFragment extends VRBaseFragment {
     }
 
     @Override
-    protected void initView(View view) {
+    protected void initView(View view, Bundle args) {
         ButterKnife.bind(this, view);
 
         // 设置版本名称

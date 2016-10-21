@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface CategoryContract {
 
-    interface View extends BaseView<Presenter> {
+    interface View extends BaseView {
 
         void setCategory(int type, int resId, List<CategoryModel.SubCategory> subCategories);
     }

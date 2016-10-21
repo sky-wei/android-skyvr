@@ -1,6 +1,7 @@
 package com.sky.vr.data.source.cloud;
 
 import com.sky.vr.app.VRConfig;
+import com.sky.vr.data.cache.VideoCache;
 import com.sky.vr.data.mapper.CategoryMapper;
 import com.sky.vr.data.mapper.ResourceMapper;
 import com.sky.vr.data.model.CategoryModel;
@@ -12,6 +13,7 @@ import com.sky.vr.data.source.VideoDataSource;
 import com.sky.vr.data.service.VideoService;
 
 import rx.Observable;
+import rx.functions.Action1;
 import rx.functions.Func1;
 
 /**
@@ -19,6 +21,12 @@ import rx.functions.Func1;
  */
 
 public class CloudVideoDataSource extends CloudDataSource implements VideoDataSource {
+
+    private VideoCache mCache;
+
+    public CloudVideoDataSource(VideoCache cache) {
+        mCache = cache;
+    }
 
     @Override
     public Observable<CategoryModel> getCategory() {
@@ -35,12 +43,15 @@ public class CloudVideoDataSource extends CloudDataSource implements VideoDataSo
 
                         return mapper.transform(result);
                     }
-                });
-    }
+                })
+                .doOnNext(new Action1<CategoryModel>() {
+                    @Override
+                    public void call(CategoryModel categoryModel) {
 
-    @Override
-    public void saveCategory(CategoryModel model) {
-        // 使用也不做
+                        // 保存到缓存中
+                        mCache.saveCategory(categoryModel);
+                    }
+                });
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.sky.vr.fragment;
 
+import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -39,17 +40,12 @@ public class ResDisplayFragment extends PresenterFragment<VideoContract.Presente
     private ResDisplayAdapter mViewAdapter;
 
     @Override
-    protected void initData() {
-
-    }
-
-    @Override
     protected View createView(LayoutInflater inflater, ViewGroup container) {
         return inflater.inflate(R.layout.fragment_res_display, container, false);
     }
 
     @Override
-    protected void initView(View view) {
+    protected void initView(View view, Bundle args) {
         ButterKnife.bind(this, view);
 
         mViewAdapter = new ResDisplayAdapter(getContext());

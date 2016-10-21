@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface VideoContract {
 
-    interface View extends BaseView<Presenter> {
+    interface View extends BaseView {
 
         void setTagsResource(List<ResourceModel.Resource> resources);
     }
