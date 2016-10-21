@@ -11,6 +11,7 @@ import com.sky.vr.data.source.VideoDataRepository;
 import com.sky.vr.data.source.VideoSourceFactory;
 import com.sky.vr.event.VideoEvent;
 import com.sky.vr.data.model.ResourceModel;
+import com.sky.vr.util.PageHelper;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -26,6 +27,7 @@ public class ResDispalyPresenter extends VRBasePresenter<VideoEvent> implements 
     private int mTag;
     private VideoContract.View mView;
     private VideoDataRepository mRepository;
+    private PageHelper<ResourceModel.Resource> mPageHelper;
 
     public ResDispalyPresenter(Context context, Bundle args, VideoContract.View view) {
         super(context);
@@ -34,6 +36,7 @@ public class ResDispalyPresenter extends VRBasePresenter<VideoEvent> implements 
         mTag = args.getInt("tag");
         mView = view;
         mRepository = new VideoDataRepository(new VideoSourceFactory(context));
+        mPageHelper = new PageHelper<>();
     }
 
     @Override
@@ -41,14 +44,28 @@ public class ResDispalyPresenter extends VRBasePresenter<VideoEvent> implements 
 
     }
 
-
-
     @Override
     public void loadTagsResource() {
+        loadTagsResource(0, false);
+    }
+
+    @Override
+    public void loadMoreTagsResource() {
+
+        if (!mPageHelper.isNextPage()) {
+            mView.cancelLoading();
+            return ;
+        }
+
+        // 加载更多数据
+        loadTagsResource(mPageHelper.getCurPage() + 1, true);
+    }
+
+    private void loadTagsResource(int curPage, final boolean loadMore) {
 
         mView.showLoading();
 
-        mRepository.getTagsResource(mResId, mTag, 0, 10)
+        mRepository.getTagsResource(mResId, mTag, curPage, PageHelper.PAGE_SIZE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<ResourceModel>() {
@@ -66,8 +83,21 @@ public class ResDispalyPresenter extends VRBasePresenter<VideoEvent> implements 
 
                     @Override
                     public void onNext(ResourceModel model) {
-                        // 暂时不分页
-                        mView.setTagsResource(model.getResources());
+
+                        if (model == null) {
+                            mView.showMessage("没有加载到服务器数据");
+                            return ;
+                        }
+
+                        if (loadMore) {
+                            // 追加数据
+                            mPageHelper.appendData(model.getResources());
+                        } else {
+                            // 设置数据
+                            mPageHelper.setData(model.getTotal(), model.getResources());
+                        }
+
+                        mView.setTagsResource(mPageHelper.getData());
                     }
                 });
     }

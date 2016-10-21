@@ -68,10 +68,18 @@ public class VideoCacheImpl implements VideoCache {
             @Override
             public void call(Subscriber<? super CategoryModel> subscriber) {
 
+                CategoryModel model = null;
+
+                try {
+                    model = getCategoryCache();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
                 try {
                     // 获取分类缓存
-                    subscriber.onNext(getCategoryCache());
-                } catch (IOException e) {
+                    subscriber.onNext(model);
+                } catch (Exception e) {
                     subscriber.onError(e);
                     return ;
                 }

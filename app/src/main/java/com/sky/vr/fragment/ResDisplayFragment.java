@@ -12,12 +12,14 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.sky.android.common.interfaces.OnItemEventListener;
+import com.sky.android.common.utils.DisplayUtils;
 import com.sky.vr.R;
 import com.sky.vr.adapter.ResDisplayAdapter;
 import com.sky.vr.base.PresenterFragment;
 import com.sky.vr.contract.VideoContract;
 import com.sky.vr.data.model.ResourceModel;
 import com.sky.vr.presenter.ResDispalyPresenter;
+import com.sky.vr.util.RecyclerHelper;
 import com.sky.vr.util.decoration.GridSpacingItemDecoration;
 
 import java.util.List;
@@ -29,7 +31,7 @@ import butterknife.ButterKnife;
  * Created by sky on 16-9-27.
  */
 public class ResDisplayFragment extends PresenterFragment<VideoContract.Presenter>
-        implements VideoContract.View, OnItemEventListener, SwipeRefreshLayout.OnRefreshListener {
+        implements VideoContract.View, OnItemEventListener, RecyclerHelper.OnCallback {
 
     @BindView(R.id.swip_refresh_layout)
     SwipeRefreshLayout swip_refresh_layout;
@@ -38,6 +40,7 @@ public class ResDisplayFragment extends PresenterFragment<VideoContract.Presente
     RecyclerView recycler_view;
 
     private ResDisplayAdapter mViewAdapter;
+    private RecyclerHelper mHelper;
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container) {
@@ -52,19 +55,20 @@ public class ResDisplayFragment extends PresenterFragment<VideoContract.Presente
         mViewAdapter.setOnItemEventListener(this);
 
         swip_refresh_layout.setColorSchemeResources(R.color.colorPrimary);
-        swip_refresh_layout.setOnRefreshListener(this);
 
         recycler_view.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        recycler_view.addItemDecoration(new GridSpacingItemDecoration(2, (int) TypedValue
-                .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, getResources().getDisplayMetrics()), true));
+        recycler_view.addItemDecoration(new GridSpacingItemDecoration(2, DisplayUtils.dip2px(getContext(), 8), true));
         recycler_view.setHasFixedSize(true);
         recycler_view.setItemAnimator(new DefaultItemAnimator());
         recycler_view.setAdapter(mViewAdapter);
 
+        // 刷新助手类
+        mHelper = new RecyclerHelper(swip_refresh_layout, recycler_view, this);
+        mHelper.forceRefreshing();
+
         // 初始化
         mPresenter = new ResDispalyPresenter(getContext(), getArguments(), this);
         mPresenter.loadTagsResource();
-        forceRefreshing();
     }
 
     @Override
@@ -74,7 +78,7 @@ public class ResDisplayFragment extends PresenterFragment<VideoContract.Presente
 
     @Override
     public void cancelLoading() {
-//        super.cancelLoading();
+        mHelper.cancelRefreshing();
     }
 
     @Override
@@ -82,8 +86,6 @@ public class ResDisplayFragment extends PresenterFragment<VideoContract.Presente
         // 设置内容
         mViewAdapter.setItems(resources);
         mViewAdapter.notifyDataSetChanged();
-
-        cancelRefreshing();
     }
 
     @Override
@@ -93,24 +95,12 @@ public class ResDisplayFragment extends PresenterFragment<VideoContract.Presente
 
     @Override
     public void onRefresh() {
-
+        // 重新加载数据
         mPresenter.loadTagsResource();
     }
 
-    protected void forceRefreshing() {
-
-        if (swip_refresh_layout.isRefreshing()) return ;
-
-        // 显示加载进度
-        swip_refresh_layout.setProgressViewOffset(false, 0, (int) TypedValue
-                .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 60, getResources().getDisplayMetrics()));
-        swip_refresh_layout.setRefreshing(true);
-    }
-
-    protected void cancelRefreshing() {
-
-        if (!swip_refresh_layout.isRefreshing()) return ;
-
-        swip_refresh_layout.setRefreshing(false);
+    @Override
+    public void onLoadMore() {
+        mPresenter.loadMoreTagsResource();
     }
 }

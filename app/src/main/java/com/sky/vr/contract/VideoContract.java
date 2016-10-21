@@ -20,5 +20,7 @@ public interface VideoContract {
     interface Presenter extends BasePresenter {
 
         void loadTagsResource();
+
+        void loadMoreTagsResource();
     }
 }
