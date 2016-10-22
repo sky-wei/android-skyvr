@@ -49,6 +49,10 @@ public class PageHelper<T> {
         return mDatas;
     }
 
+    public T getDataItem(int index) {
+        return mDatas.get(index);
+    }
+
     public boolean appendData(List<T> datas) {
 
         if (datas == null

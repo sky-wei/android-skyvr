@@ -1,5 +1,6 @@
 package com.sky.vr.data.service;
 
+import com.sky.vr.data.mojing.ResRetails;
 import com.sky.vr.data.mojing.Result;
 import com.sky.vr.data.mojing.Tags;
 import com.sky.vr.data.mojing.TagsResource;
@@ -24,4 +25,7 @@ public interface VideoService {
     @GET("1/tags_resource-type{resId}-tag{tag}-start{start}-num{num}.js")
     Observable<Result<TagsResource>> getTagsResource(
             @Path("resId") int resId, @Path("tag") int tag, @Path("start") int start, @Path("num") int num);
+
+    @GET("{path}")
+    Observable<Result<ResRetails>> getResRetails(@Path("path") String path);
 }

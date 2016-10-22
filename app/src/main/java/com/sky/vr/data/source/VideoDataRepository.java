@@ -1,6 +1,7 @@
 package com.sky.vr.data.source;
 
 import com.sky.vr.data.model.CategoryModel;
+import com.sky.vr.data.model.ResRetailsModel;
 import com.sky.vr.data.model.ResourceModel;
 
 import rx.Observable;
@@ -48,6 +49,22 @@ public class VideoDataRepository implements VideoDataSource {
                 .takeFirst(new Func1<ResourceModel, Boolean>() {
                     @Override
                     public Boolean call(ResourceModel model) {
+                        return model != null;
+                    }
+                });
+    }
+
+    @Override
+    public Observable<ResRetailsModel> getResRetails(String path) {
+
+        Observable<ResRetailsModel> localObservable = mLocal.getResRetails(path);
+        Observable<ResRetailsModel> remoteObservable = mRemote.getResRetails(path);
+
+        return Observable
+                .concat(localObservable, remoteObservable)
+                .takeFirst(new Func1<ResRetailsModel, Boolean>() {
+                    @Override
+                    public Boolean call(ResRetailsModel model) {
                         return model != null;
                     }
                 });

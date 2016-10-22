@@ -52,6 +52,11 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"/>
 
+        <activity
+            android:name=".activity.RetailsActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
+
         <meta-data
             android:name="com.bumptech.glide.integration.okhttp3.OkHttpGlideModule"
             android:value="GlideModule" />

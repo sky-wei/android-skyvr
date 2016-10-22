@@ -5,15 +5,14 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.sky.android.common.interfaces.OnItemEventListener;
 import com.sky.android.common.utils.DisplayUtils;
 import com.sky.vr.R;
+import com.sky.vr.activity.RetailsActivity;
 import com.sky.vr.adapter.ResDisplayAdapter;
 import com.sky.vr.base.PresenterFragment;
 import com.sky.vr.contract.VideoContract;
@@ -89,8 +88,23 @@ public class ResDisplayFragment extends PresenterFragment<VideoContract.Presente
     }
 
     @Override
+    public void seeDetails(int type, ResourceModel.Resource resource) {
+
+        if (resource == null) return ;
+
+        Bundle args = new Bundle();
+        args.putInt("type", type);
+        args.putSerializable("resource", resource);
+
+        RetailsActivity.startCommonActivity(
+                getContext(), resource.getTitle(),
+                ResRetailsFragment.class.getName(), args);
+    }
+
+    @Override
     public void onItemEvent(int event, View view, int position, Object... args) {
-        Toast.makeText(getContext(), "功能待续...", Toast.LENGTH_SHORT).show();
+        // 处理事件
+        mPresenter.onItemEvent(position);
     }
 
     @Override

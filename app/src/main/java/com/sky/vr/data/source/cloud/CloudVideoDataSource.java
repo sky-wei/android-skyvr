@@ -3,9 +3,12 @@ package com.sky.vr.data.source.cloud;
 import com.sky.vr.app.VRConfig;
 import com.sky.vr.data.cache.VideoCache;
 import com.sky.vr.data.mapper.CategoryMapper;
+import com.sky.vr.data.mapper.ResRetailsMapper;
 import com.sky.vr.data.mapper.ResourceMapper;
 import com.sky.vr.data.model.CategoryModel;
+import com.sky.vr.data.model.ResRetailsModel;
 import com.sky.vr.data.model.ResourceModel;
+import com.sky.vr.data.mojing.ResRetails;
 import com.sky.vr.data.mojing.Result;
 import com.sky.vr.data.mojing.TagsResource;
 import com.sky.vr.data.mojing.Tags;
@@ -63,6 +66,23 @@ public class CloudVideoDataSource extends CloudDataSource implements VideoDataSo
                     public ResourceModel call(Result<TagsResource> result) {
 
                         ResourceMapper mapper = new ResourceMapper();
+
+                        return mapper.transform(result);
+                    }
+                });
+    }
+
+    @Override
+    public Observable<ResRetailsModel> getResRetails(String path) {
+
+        VideoService videoService = buildVideoService();
+
+        return videoService.getResRetails(path)
+                .map(new Func1<Result<ResRetails>, ResRetailsModel>() {
+                    @Override
+                    public ResRetailsModel call(Result<ResRetails> result) {
+
+                        ResRetailsMapper mapper = new ResRetailsMapper();
 
                         return mapper.transform(result);
                     }

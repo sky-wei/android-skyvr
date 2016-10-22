@@ -1,12 +1,13 @@
 package com.sky.vr.data.mojing;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by starrysky on 16-10-9.
  */
 
-public class TagsResource {
+public class TagsResource implements Serializable {
 
     private String title;
     private String layout_type;
@@ -54,7 +55,7 @@ public class TagsResource {
         this.list = list;
     }
 
-    public static class Resource {
+    public static class Resource implements Serializable {
 
         private int res_id;
         private int operation_type;

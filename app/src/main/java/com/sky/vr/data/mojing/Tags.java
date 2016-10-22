@@ -1,12 +1,13 @@
 package com.sky.vr.data.mojing;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by sky on 16-9-29.
  */
 
-public class Tags {
+public class Tags implements Serializable {
 
     List<Category> list;
     private String url;
@@ -46,7 +47,7 @@ public class Tags {
     }
 
 
-    public static class Category {
+    public static class Category implements Serializable {
 
         private String bg;
         private int res_id;
@@ -113,7 +114,7 @@ public class Tags {
         }
     }
 
-    public static class Classify {
+    public static class Classify implements Serializable {
 
         private String bg;
         private String keyname;
@@ -171,7 +172,7 @@ public class Tags {
         }
     }
 
-    public static class SubClassify {
+    public static class SubClassify implements Serializable {
 
         private int id;
         private String title;

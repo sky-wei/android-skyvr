@@ -1,12 +1,13 @@
 package com.sky.vr.data.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by sky on 16-9-29.
  */
 
-public class CategoryModel {
+public class CategoryModel implements Serializable {
 
     private String url;
     private List<Category> categories;
@@ -85,7 +86,7 @@ public class CategoryModel {
         }
     }
 
-    public static class SubCategory {
+    public static class SubCategory implements Serializable {
 
         private int id;
         private String name;

@@ -1,12 +1,13 @@
 package com.sky.vr.data.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by starrysky on 16-10-10.
  */
 
-public class ResourceModel {
+public class ResourceModel implements Serializable {
 
     private String title;
     private int total;
@@ -36,7 +37,7 @@ public class ResourceModel {
         this.resources = resources;
     }
 
-    public static class Resource {
+    public static class Resource implements Serializable {
 
         private int resId;
         private int operationType;

@@ -61,6 +61,11 @@ public class ResDispalyPresenter extends VRBasePresenter<VideoEvent> implements 
         loadTagsResource(mPageHelper.getCurPage() + 1, true);
     }
 
+    @Override
+    public void onItemEvent(int position) {
+        mView.seeDetails(mType, mPageHelper.getDataItem(position));
+    }
+
     private void loadTagsResource(int curPage, final boolean loadMore) {
 
         mView.showLoading();

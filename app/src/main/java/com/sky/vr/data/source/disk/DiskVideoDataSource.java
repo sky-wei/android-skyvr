@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.sky.vr.data.cache.VideoCache;
 import com.sky.vr.data.model.CategoryModel;
+import com.sky.vr.data.model.ResRetailsModel;
 import com.sky.vr.data.model.ResourceModel;
 import com.sky.vr.data.source.VideoDataSource;
 
@@ -31,6 +32,11 @@ public class DiskVideoDataSource implements VideoDataSource {
 
     @Override
     public Observable<ResourceModel> getTagsResource(int resId, int tag, int start, int num) {
+        return Observable.just(null);
+    }
+
+    @Override
+    public Observable<ResRetailsModel> getResRetails(String path) {
         return Observable.just(null);
     }
 }

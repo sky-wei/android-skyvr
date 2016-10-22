@@ -15,6 +15,8 @@ public interface VideoContract {
     interface View extends BaseView {
 
         void setTagsResource(List<ResourceModel.Resource> resources);
+
+        void seeDetails(int type, ResourceModel.Resource resource);
     }
 
     interface Presenter extends BasePresenter {
@@ -22,5 +24,7 @@ public interface VideoContract {
         void loadTagsResource();
 
         void loadMoreTagsResource();
+
+        void onItemEvent(int position);
     }
 }

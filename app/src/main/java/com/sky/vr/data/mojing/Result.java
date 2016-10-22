@@ -1,10 +1,12 @@
 package com.sky.vr.data.mojing;
 
+import java.io.Serializable;
+
 /**
  * Created by sky on 16-10-16.
  */
 
-public class Result<T> {
+public class Result<T> implements Serializable {
 
     private int status;
     private String status_msg;

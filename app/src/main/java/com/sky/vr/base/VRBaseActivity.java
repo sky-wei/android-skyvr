@@ -29,6 +29,10 @@ public abstract class VRBaseActivity extends BaseActivity {
     protected abstract void initView(Intent intent);
 
     protected void setSupportActionBar(Toolbar toolbar, int title, boolean homeAsUp) {
+      setSupportActionBar(toolbar, getString(title), homeAsUp);
+    }
+
+    protected void setSupportActionBar(Toolbar toolbar, String title, boolean homeAsUp) {
 
         if (toolbar == null) return ;
 
