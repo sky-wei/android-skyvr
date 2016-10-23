@@ -70,7 +70,8 @@ public class ResDispalyPresenter extends VRBasePresenter<VideoEvent> implements 
 
         mView.showLoading();
 
-        mRepository.getTagsResource(mResId, mTag, curPage, PageHelper.PAGE_SIZE)
+        mRepository.getTagsResource(
+                mResId, mTag, curPage * PageHelper.PAGE_SIZE, PageHelper.PAGE_SIZE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<ResourceModel>() {
