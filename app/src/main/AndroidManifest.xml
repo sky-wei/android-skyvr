@@ -58,7 +58,7 @@
             android:screenOrientation="portrait"/>
 
         <meta-data
-            android:name="com.bumptech.glide.integration.okhttp3.OkHttpGlideModule"
+            android:name="com.sky.vr.app.VRGlideModule"
             android:value="GlideModule" />
     </application>
 

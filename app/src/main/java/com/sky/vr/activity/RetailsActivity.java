@@ -23,10 +23,10 @@ public class RetailsActivity extends VRBaseActivity {
     Toolbar toolbar;
 
     public static void startRetailsActivity(Context context, String title, String fname) {
-        startCommonActivity(context, title, fname, null);
+        startRetailsActivity(context, title, fname, null);
     }
 
-    public static void startCommonActivity(Context context, String title, String fname, Bundle args) {
+    public static void startRetailsActivity(Context context, String title, String fname, Bundle args) {
 
         Intent intent = new Intent(context, RetailsActivity.class);
         intent.putExtra("title", title);

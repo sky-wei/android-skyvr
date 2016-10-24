@@ -13,11 +13,11 @@ import com.sky.android.common.interfaces.OnItemEventListener;
 import com.sky.android.common.utils.DisplayUtils;
 import com.sky.vr.R;
 import com.sky.vr.activity.RetailsActivity;
-import com.sky.vr.adapter.ResDisplayAdapter;
+import com.sky.vr.adapter.ResListAdapter;
 import com.sky.vr.base.PresenterFragment;
-import com.sky.vr.contract.VideoContract;
-import com.sky.vr.data.model.ResourceModel;
-import com.sky.vr.presenter.ResDispalyPresenter;
+import com.sky.vr.contract.ResListContract;
+import com.sky.vr.data.model.ResListModel;
+import com.sky.vr.presenter.ResListPresenter;
 import com.sky.vr.util.RecyclerHelper;
 import com.sky.vr.util.decoration.GridSpacingItemDecoration;
 
@@ -29,8 +29,8 @@ import butterknife.ButterKnife;
 /**
  * Created by sky on 16-9-27.
  */
-public class ResDisplayFragment extends PresenterFragment<VideoContract.Presenter>
-        implements VideoContract.View, OnItemEventListener, RecyclerHelper.OnCallback {
+public class ResListFragment extends PresenterFragment<ResListContract.Presenter>
+        implements ResListContract.View, OnItemEventListener, RecyclerHelper.OnCallback {
 
     @BindView(R.id.swip_refresh_layout)
     SwipeRefreshLayout swip_refresh_layout;
@@ -38,19 +38,19 @@ public class ResDisplayFragment extends PresenterFragment<VideoContract.Presente
     @BindView(R.id.recycler_view)
     RecyclerView recycler_view;
 
-    private ResDisplayAdapter mViewAdapter;
+    private ResListAdapter mViewAdapter;
     private RecyclerHelper mHelper;
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container) {
-        return inflater.inflate(R.layout.fragment_res_display, container, false);
+        return inflater.inflate(R.layout.fragment_res_list, container, false);
     }
 
     @Override
     protected void initView(View view, Bundle args) {
         ButterKnife.bind(this, view);
 
-        mViewAdapter = new ResDisplayAdapter(getContext());
+        mViewAdapter = new ResListAdapter(getContext());
         mViewAdapter.setOnItemEventListener(this);
 
         swip_refresh_layout.setColorSchemeResources(R.color.colorPrimary);
@@ -66,13 +66,12 @@ public class ResDisplayFragment extends PresenterFragment<VideoContract.Presente
         mHelper.forceRefreshing();
 
         // 初始化
-        mPresenter = new ResDispalyPresenter(getContext(), getArguments(), this);
+        mPresenter = new ResListPresenter(getContext(), getArguments(), this);
         mPresenter.loadTagsResource();
     }
 
     @Override
     public void showLoading() {
-//        super.showLoading();
     }
 
     @Override
@@ -81,14 +80,14 @@ public class ResDisplayFragment extends PresenterFragment<VideoContract.Presente
     }
 
     @Override
-    public void setTagsResource(List<ResourceModel.Resource> resources) {
+    public void setTagsResource(List<ResListModel.Resource> resources) {
         // 设置内容
         mViewAdapter.setItems(resources);
         mViewAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void seeDetails(int type, ResourceModel.Resource resource) {
+    public void seeDetails(int type, ResListModel.Resource resource) {
 
         if (resource == null) return ;
 
@@ -96,8 +95,8 @@ public class ResDisplayFragment extends PresenterFragment<VideoContract.Presente
         args.putInt("type", type);
         args.putSerializable("resource", resource);
 
-        RetailsActivity.startCommonActivity(
-                getContext(), resource.getTitle(),
+        RetailsActivity.startRetailsActivity(
+                getContext(), "",
                 ResRetailsFragment.class.getName(), args);
     }
 

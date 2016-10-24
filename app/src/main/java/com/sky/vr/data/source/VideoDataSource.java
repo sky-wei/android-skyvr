@@ -2,7 +2,7 @@ package com.sky.vr.data.source;
 
 import com.sky.vr.data.model.CategoryModel;
 import com.sky.vr.data.model.ResRetailsModel;
-import com.sky.vr.data.model.ResourceModel;
+import com.sky.vr.data.model.ResListModel;
 
 import rx.Observable;
 
@@ -14,7 +14,7 @@ public interface VideoDataSource {
 
     Observable<CategoryModel> getCategory();
 
-    Observable<ResourceModel> getTagsResource(int resId, int tag, int start, int num);
+    Observable<ResListModel> getResourceList(int resId, int tag, int start, int num);
 
     Observable<ResRetailsModel> getResRetails(String path);
 }

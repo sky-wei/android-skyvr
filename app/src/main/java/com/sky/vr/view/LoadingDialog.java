@@ -10,15 +10,19 @@ import android.widget.TextView;
 
 import com.sky.vr.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by starrysky on 16-5-6.
  */
 public class LoadingDialog extends Dialog {
 
-    private TextView tipText;
-    private CancelCallback mCancelCallback;
+    @BindView(R.id.tv_tip)
+    TextView tv_tip;
 
     private boolean cancelable = true;
+    private CancelCallback mCancelCallback;
 
     public LoadingDialog(Context context) {
         this(context, null);
@@ -31,7 +35,7 @@ public class LoadingDialog extends Dialog {
         setContentView(R.layout.dialog_loading);
         getWindow().setGravity(Gravity.CENTER);
 
-        tipText = (TextView) findViewById(R.id.tipTextView);
+        ButterKnife.bind(this);
     }
 
     @Override
@@ -41,11 +45,11 @@ public class LoadingDialog extends Dialog {
     }
 
     public void setTipText(int text) {
-        tipText.setText(text);
+        tv_tip.setText(text);
     }
 
     public void setTipText(String text) {
-        tipText.setText(text);
+        tv_tip.setText(text);
     }
 
     @Override

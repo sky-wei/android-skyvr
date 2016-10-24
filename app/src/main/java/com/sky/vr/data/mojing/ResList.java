@@ -7,7 +7,7 @@ import java.util.List;
  * Created by starrysky on 16-10-9.
  */
 
-public class TagsResource implements Serializable {
+public class ResList implements Serializable {
 
     private String title;
     private String layout_type;

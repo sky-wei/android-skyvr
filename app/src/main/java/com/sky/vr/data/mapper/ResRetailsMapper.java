@@ -33,6 +33,7 @@ public class ResRetailsMapper extends BaseMapper {
         model.setSubtype(resRetails.getSubtype());
         model.setThumbPicUrl(resRetails.getThumb_pic_url());
         model.setTitle(resRetails.getTitle());
+        model.setScore(resRetails.getScore());
         model.setType(resRetails.getType());
         model.setDownloadUrl(resRetails.getDownload_url());
         model.setVideoAttrs(transform(resRetails.getVideo_attrs()));

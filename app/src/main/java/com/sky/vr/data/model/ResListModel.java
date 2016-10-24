@@ -7,11 +7,11 @@ import java.util.List;
  * Created by starrysky on 16-10-10.
  */
 
-public class ResourceModel implements Serializable {
+public class ResListModel implements Serializable {
 
     private String title;
     private int total;
-    private List<ResourceModel.Resource> resources;
+    private List<ResListModel.Resource> resources;
 
     public String getTitle() {
         return title;

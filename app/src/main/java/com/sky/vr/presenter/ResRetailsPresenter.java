@@ -7,7 +7,7 @@ import com.sky.vr.base.BaseSubscriber;
 import com.sky.vr.base.VRBasePresenter;
 import com.sky.vr.contract.ResRetailsContract;
 import com.sky.vr.data.model.ResRetailsModel;
-import com.sky.vr.data.model.ResourceModel;
+import com.sky.vr.data.model.ResListModel;
 import com.sky.vr.data.source.VideoDataRepository;
 import com.sky.vr.data.source.VideoSourceFactory;
 import com.sky.vr.event.ResRetailsEvent;
@@ -22,7 +22,7 @@ import rx.schedulers.Schedulers;
 public class ResRetailsPresenter extends VRBasePresenter<ResRetailsEvent> implements ResRetailsContract.Presenter {
 
     private int mType;
-    private ResourceModel.Resource mResource;
+    private ResListModel.Resource mResource;
     private ResRetailsContract.View mView;
     private VideoDataRepository mRepository;
 
@@ -31,7 +31,7 @@ public class ResRetailsPresenter extends VRBasePresenter<ResRetailsEvent> implem
     public ResRetailsPresenter(Context context, Bundle args, ResRetailsContract.View view) {
         super(context);
         mType = args.getInt("type");
-        mResource = (ResourceModel.Resource) args.getSerializable("resource");
+        mResource = (ResListModel.Resource) args.getSerializable("resource");
         mView = view;
         mRepository = new VideoDataRepository(new VideoSourceFactory(context));
     }

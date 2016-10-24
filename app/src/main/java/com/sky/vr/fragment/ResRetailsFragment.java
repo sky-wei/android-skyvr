@@ -28,11 +28,23 @@ public class ResRetailsFragment extends PresenterFragment<ResRetailsPresenter> i
     @BindView(R.id.iv_image)
     ImageView iv_image;
 
+    @BindView(R.id.tv_title)
+    TextView tv_title;
+
+    @BindView(R.id.tv_evaluation)
+    TextView tv_evaluation;
+
+    @BindView(R.id.tv_source)
+    TextView tv_source;
+
+    @BindView(R.id.btn_play)
+    Button btn_play;
+
+    @BindView(R.id.btn_download)
+    Button btn_download;
+
     @BindView(R.id.iv_desc)
     TextView iv_desc;
-
-    @BindView(R.id.btn_test)
-    Button btn_test;
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container) {
@@ -57,11 +69,14 @@ public class ResRetailsFragment extends PresenterFragment<ResRetailsPresenter> i
                 .crossFade()
                 .into(iv_image);
 
+        tv_title.setText(model.getTitle());
+        tv_evaluation.setText(model.getScore());
+        tv_source.setText(getString(R.string.source_x, model.getSource()));
         iv_desc.setText(model.getDesc());
     }
 
-    @OnClick(R.id.btn_test)
-    void onClick(View view) {
+    @OnClick({R.id.btn_play, R.id.btn_download})
+    public void onClick(View view) {
         mPresenter.playResource();
     }
 }

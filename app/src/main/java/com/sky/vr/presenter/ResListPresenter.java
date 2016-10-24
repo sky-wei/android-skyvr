@@ -5,12 +5,11 @@ import android.os.Bundle;
 
 import com.sky.vr.base.BaseSubscriber;
 import com.sky.vr.base.VRBasePresenter;
-import com.sky.vr.contract.VideoContract;
-import com.sky.vr.data.cache.impl.VideoCacheImpl;
+import com.sky.vr.contract.ResListContract;
 import com.sky.vr.data.source.VideoDataRepository;
 import com.sky.vr.data.source.VideoSourceFactory;
-import com.sky.vr.event.VideoEvent;
-import com.sky.vr.data.model.ResourceModel;
+import com.sky.vr.event.ResListEvent;
+import com.sky.vr.data.model.ResListModel;
 import com.sky.vr.util.PageHelper;
 
 import rx.android.schedulers.AndroidSchedulers;
@@ -20,16 +19,16 @@ import rx.schedulers.Schedulers;
  * Created by sky on 16-9-28.
  */
 
-public class ResDispalyPresenter extends VRBasePresenter<VideoEvent> implements VideoContract.Presenter {
+public class ResListPresenter extends VRBasePresenter<ResListEvent> implements ResListContract.Presenter {
 
     private int mType;
     private int mResId;
     private int mTag;
-    private VideoContract.View mView;
+    private ResListContract.View mView;
     private VideoDataRepository mRepository;
-    private PageHelper<ResourceModel.Resource> mPageHelper;
+    private PageHelper<ResListModel.Resource> mPageHelper;
 
-    public ResDispalyPresenter(Context context, Bundle args, VideoContract.View view) {
+    public ResListPresenter(Context context, Bundle args, ResListContract.View view) {
         super(context);
         mType = args.getInt("type");
         mResId = args.getInt("resId");
@@ -40,7 +39,7 @@ public class ResDispalyPresenter extends VRBasePresenter<VideoEvent> implements 
     }
 
     @Override
-    public void onMainThreadEvent(VideoEvent event) {
+    public void onMainThreadEvent(ResListEvent event) {
 
     }
 
@@ -70,11 +69,11 @@ public class ResDispalyPresenter extends VRBasePresenter<VideoEvent> implements 
 
         mView.showLoading();
 
-        mRepository.getTagsResource(
+        mRepository.getResourceList(
                 mResId, mTag, curPage * PageHelper.PAGE_SIZE, PageHelper.PAGE_SIZE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriber<ResourceModel>() {
+                .subscribe(new BaseSubscriber<ResListModel>() {
                     @Override
                     public void onCompleted() {
                         mView.cancelLoading();
@@ -88,7 +87,7 @@ public class ResDispalyPresenter extends VRBasePresenter<VideoEvent> implements 
                     }
 
                     @Override
-                    public void onNext(ResourceModel model) {
+                    public void onNext(ResListModel model) {
 
                         if (model == null) {
                             mView.showMessage("没有加载到服务器数据");

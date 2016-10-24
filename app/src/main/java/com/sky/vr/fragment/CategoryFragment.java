@@ -59,7 +59,7 @@ public class CategoryFragment extends PresenterFragment<CategoryContract.Present
             args.putInt("resId", resId);
             args.putInt("tag", subCategory.getId());
 
-            creator.add(subCategory.getName(), ResDisplayFragment.class, args);
+            creator.add(subCategory.getName(), ResListFragment.class, args);
         }
 
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(

@@ -2,10 +2,9 @@ package com.sky.vr.data.source;
 
 import com.sky.vr.data.model.CategoryModel;
 import com.sky.vr.data.model.ResRetailsModel;
-import com.sky.vr.data.model.ResourceModel;
+import com.sky.vr.data.model.ResListModel;
 
 import rx.Observable;
-import rx.functions.Action1;
 import rx.functions.Func1;
 
 /**
@@ -39,16 +38,16 @@ public class VideoDataRepository implements VideoDataSource {
     }
 
     @Override
-    public Observable<ResourceModel> getTagsResource(int resId, int tag, int start, int num) {
+    public Observable<ResListModel> getResourceList(int resId, int tag, int start, int num) {
 
-        Observable<ResourceModel> localObservable = mLocal.getTagsResource(resId, tag, start, num);
-        Observable<ResourceModel> remoteObservable = mRemote.getTagsResource(resId, tag, start, num);
+        Observable<ResListModel> localObservable = mLocal.getResourceList(resId, tag, start, num);
+        Observable<ResListModel> remoteObservable = mRemote.getResourceList(resId, tag, start, num);
 
         return Observable
                 .concat(localObservable, remoteObservable)
-                .takeFirst(new Func1<ResourceModel, Boolean>() {
+                .takeFirst(new Func1<ResListModel, Boolean>() {
                     @Override
-                    public Boolean call(ResourceModel model) {
+                    public Boolean call(ResListModel model) {
                         return model != null;
                     }
                 });

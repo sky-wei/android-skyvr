@@ -12,52 +12,56 @@ import com.sky.android.common.adapter.SimpleRecyclerAdapter;
 import com.sky.android.common.base.BaseRecyclerAdapter;
 import com.sky.android.common.base.BaseRecyclerHolder;
 import com.sky.vr.R;
-import com.sky.vr.data.model.ResourceModel;
+import com.sky.vr.data.model.ResListModel;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by starrysky on 16-10-10.
  */
 
-public class ResDisplayAdapter extends SimpleRecyclerAdapter<ResourceModel.Resource> {
+public class ResListAdapter extends SimpleRecyclerAdapter<ResListModel.Resource> {
 
-    public ResDisplayAdapter(Context context) {
+    public ResListAdapter(Context context) {
         super(context);
     }
 
     @Override
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup viewGroup, int viewType) {
-        return layoutInflater.inflate(R.layout.item_res_display, viewGroup, false);
+        return layoutInflater.inflate(R.layout.item_res_list, viewGroup, false);
     }
 
     @Override
-    public BaseRecyclerHolder<ResourceModel.Resource> onCreateViewHolder(View view, int viewType) {
+    public BaseRecyclerHolder<ResListModel.Resource> onCreateViewHolder(View view, int viewType) {
         return new VideoHolder(view, this);
     }
 
-    public class VideoHolder extends BaseRecyclerHolder<ResourceModel.Resource> implements View.OnClickListener {
+    public class VideoHolder extends BaseRecyclerHolder<ResListModel.Resource> {
 
-        private ImageView iv_image;
-        private TextView tv_title;
-        private TextView tv_subtitle;
+        @BindView(R.id.iv_image)
+        ImageView iv_image;
 
-        public VideoHolder(View itemView, BaseRecyclerAdapter<ResourceModel.Resource> baseRecyclerAdapter) {
+        @BindView(R.id.tv_title)
+        TextView tv_title;
+
+        @BindView(R.id.tv_subtitle)
+        TextView tv_subtitle;
+
+        public VideoHolder(View itemView, BaseRecyclerAdapter<ResListModel.Resource> baseRecyclerAdapter) {
             super(itemView, baseRecyclerAdapter);
         }
 
         @Override
         public void onInitialize() {
-
-            iv_image = (ImageView) findViewById(R.id.iv_image);
-            tv_title = (TextView) findViewById(R.id.tv_title);
-            tv_subtitle = (TextView) findViewById(R.id.tv_subtitle);
-
-            itemView.setOnClickListener(this);
+            ButterKnife.bind(this, itemView);
         }
 
         @Override
         public void onBind(int position, int viewType) {
 
-            ResourceModel.Resource resource = getItem(position);
+            ResListModel.Resource resource = getItem(position);
 
             Glide.with(getContext())
                     .load(resource.getPicUrl())
@@ -68,7 +72,9 @@ public class ResDisplayAdapter extends SimpleRecyclerAdapter<ResourceModel.Resou
             tv_subtitle.setText(resource.getSubtitle());
         }
 
-        @Override
+
+
+        @OnClick(R.id.card_res_item)
         public void onClick(View v) {
             // 点击事件
             onItemEvent(0, v, getAdapterPosition());

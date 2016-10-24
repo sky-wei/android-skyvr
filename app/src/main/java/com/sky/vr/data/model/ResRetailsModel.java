@@ -15,6 +15,7 @@ public class ResRetailsModel implements Serializable {
     private int subtype;
     private String subtitle;
     private String desc;
+    private String score;
 
     private String source;
     private String downloadUrl;
@@ -71,6 +72,14 @@ public class ResRetailsModel implements Serializable {
 
     public void setDesc(String desc) {
         this.desc = desc;
+    }
+
+    public String getScore() {
+        return score;
+    }
+
+    public void setScore(String score) {
+        this.score = score;
     }
 
     public String getSource() {

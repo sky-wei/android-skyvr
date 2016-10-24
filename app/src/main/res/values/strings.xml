@@ -29,4 +29,9 @@
     <string name="data_cache">网络数据缓存</string>
     <string name="download_cache">下载数据缓存</string>
 
+    <string name="play">播放</string>
+    <string name="download">下载</string>
+    <string name="introduction">简介</string>
+    <string name="source_x">视频来源：%1$s</string>
+
 </resources>

@@ -3,14 +3,15 @@ package com.sky.vr.data.source.cloud;
 import com.sky.vr.app.VRConfig;
 import com.sky.vr.data.cache.VideoCache;
 import com.sky.vr.data.mapper.CategoryMapper;
+import com.sky.vr.data.mapper.MapperFactory;
 import com.sky.vr.data.mapper.ResRetailsMapper;
-import com.sky.vr.data.mapper.ResourceMapper;
+import com.sky.vr.data.mapper.ResListMapper;
 import com.sky.vr.data.model.CategoryModel;
 import com.sky.vr.data.model.ResRetailsModel;
-import com.sky.vr.data.model.ResourceModel;
+import com.sky.vr.data.model.ResListModel;
 import com.sky.vr.data.mojing.ResRetails;
 import com.sky.vr.data.mojing.Result;
-import com.sky.vr.data.mojing.TagsResource;
+import com.sky.vr.data.mojing.ResList;
 import com.sky.vr.data.mojing.Tags;
 import com.sky.vr.data.source.VideoDataSource;
 import com.sky.vr.data.service.VideoService;
@@ -41,10 +42,7 @@ public class CloudVideoDataSource extends CloudDataSource implements VideoDataSo
                 .map(new Func1<Result<Tags>, CategoryModel>() {
                     @Override
                     public CategoryModel call(Result<Tags> result) {
-
-                        CategoryMapper mapper = new CategoryMapper();
-
-                        return mapper.transform(result);
+                        return MapperFactory.createCategoryMapper().transform(result);
                     }
                 })
                 .doOnNext(new Action1<CategoryModel>() {
@@ -58,16 +56,13 @@ public class CloudVideoDataSource extends CloudDataSource implements VideoDataSo
     }
 
     @Override
-    public Observable<ResourceModel> getTagsResource(int resId, int tag, int start, int num) {
+    public Observable<ResListModel> getResourceList(int resId, int tag, int start, int num) {
 
         return getTagsResourceEx(resId, tag, start, num)
-                .map(new Func1<Result<TagsResource>, ResourceModel>() {
+                .map(new Func1<Result<ResList>, ResListModel>() {
                     @Override
-                    public ResourceModel call(Result<TagsResource> result) {
-
-                        ResourceMapper mapper = new ResourceMapper();
-
-                        return mapper.transform(result);
+                    public ResListModel call(Result<ResList> result) {
+                        return MapperFactory.createResListMapper().transform(result);
                     }
                 });
     }
@@ -81,15 +76,12 @@ public class CloudVideoDataSource extends CloudDataSource implements VideoDataSo
                 .map(new Func1<Result<ResRetails>, ResRetailsModel>() {
                     @Override
                     public ResRetailsModel call(Result<ResRetails> result) {
-
-                        ResRetailsMapper mapper = new ResRetailsMapper();
-
-                        return mapper.transform(result);
+                        return MapperFactory.createResRetailsMapper().transform(result);
                     }
                 });
     }
 
-    private Observable<Result<TagsResource>> getTagsResourceEx(int resId, int tag, int start, int num) {
+    private Observable<Result<ResList>> getTagsResourceEx(int resId, int tag, int start, int num) {
 
         VideoService videoService = buildVideoService();
 
