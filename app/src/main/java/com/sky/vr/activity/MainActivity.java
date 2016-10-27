@@ -9,7 +9,9 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.sky.vr.R;
 import com.sky.vr.base.VRBaseActivity;
@@ -35,6 +37,8 @@ public class MainActivity extends VRBaseActivity
 
     @BindView(R.id.nav_view)
     NavigationView navigationView;
+
+    private long mKeyTime;
 
     @Override
     protected void setContentView() {
@@ -142,5 +146,18 @@ public class MainActivity extends VRBaseActivity
         args.putInt("id", id);
 
         return args;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if(keyCode == KeyEvent.KEYCODE_BACK
+                && (System.currentTimeMillis() - mKeyTime) > 2000){
+
+            mKeyTime = System.currentTimeMillis();
+            Toast.makeText(this, R.string.exit_app, Toast.LENGTH_LONG).show();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

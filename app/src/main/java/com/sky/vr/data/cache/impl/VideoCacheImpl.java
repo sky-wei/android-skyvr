@@ -1,18 +1,9 @@
 package com.sky.vr.data.cache.impl;
 
-import android.content.Context;
-
-import com.google.gson.Gson;
-import com.jakewharton.disklrucache.DiskLruCache;
-import com.sky.android.common.utils.Alog;
-import com.sky.android.common.utils.FileUtils;
-import com.sky.android.common.utils.MD5Utils;
+import com.sky.vr.data.cache.CacheManager;
 import com.sky.vr.data.cache.VideoCache;
 import com.sky.vr.data.model.CategoryModel;
-import com.sky.vr.util.AppUtil;
-
-import java.io.File;
-import java.io.IOException;
+import com.sky.vr.data.model.ResRetailsModel;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -23,132 +14,64 @@ import rx.Subscriber;
 
 public class VideoCacheImpl implements VideoCache {
 
-    private static final String TAG = VideoCacheImpl.class.getSimpleName();
-
-    private static final int MAX_SIZE = 1024 * 1024 * 50;
-
+    private CacheManager mCacheManager;
     private String mCategoryKey;
-    private DiskLruCache mDiskLruCache;
 
-    private static VideoCache videoCache;
-
-    public static VideoCache getVideoCache(Context context) {
-
-        if (videoCache == null) {
-            videoCache = new VideoCacheImpl(context);
-        }
-
-        return videoCache;
-    }
-
-    private VideoCacheImpl(Context context) {
-
-        int version = AppUtil.getAppVersionCode(context, context.getPackageName());
-
-        File cacheDir = new File(context.getCacheDir(), "net_cache");
-        if (!cacheDir.exists()) FileUtils.createDir(cacheDir);
-
-        try {
-            mDiskLruCache = DiskLruCache.open(cacheDir, version, 1, MAX_SIZE);
-        } catch (IOException e) {
-            e.printStackTrace();
-            mDiskLruCache = null;
-        }
-
-        // 生成Key
-        mCategoryKey = MD5Utils.md5sum(VideoCacheImpl.class.getName() + ":getCategory()");
+    public VideoCacheImpl(CacheManager cacheManager) {
+        mCacheManager = cacheManager;
+        mCategoryKey = mCacheManager.buildKey(VideoCacheImpl.class.getName() + ":getCategory()");
     }
 
     @Override
     public Observable<CategoryModel> getCategory() {
 
-        if (mDiskLruCache == null) return Observable.just(null);
-
         return Observable.create(new Observable.OnSubscribe<CategoryModel>() {
             @Override
             public void call(Subscriber<? super CategoryModel> subscriber) {
 
-                CategoryModel model = null;
-
-                try {
-                    model = getCategoryCache();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                try {
-                    // 获取分类缓存
-                    subscriber.onNext(model);
-                } catch (Exception e) {
-                    subscriber.onError(e);
-                    return ;
-                }
-                // 完成
-                subscriber.onCompleted();
+                handler(subscriber, mCacheManager.get(mCategoryKey, CategoryModel.class));
             }
         });
     }
 
     @Override
     public void saveCategory(CategoryModel model) {
+        mCacheManager.put(mCategoryKey, model);
+    }
 
-        DiskLruCache.Editor editor = null;
+    @Override
+    public Observable<ResRetailsModel> getResRetails(final String path) {
 
-        try {
-            editor = mDiskLruCache.edit(mCategoryKey);
+        return Observable.create(new Observable.OnSubscribe<ResRetailsModel>() {
+            @Override
+            public void call(Subscriber<? super ResRetailsModel> subscriber) {
 
-            // 保存数据
-            setEditorValue(editor, model);
+                String key = mCacheManager.buildKey(path);
 
-            // 提交
-            editorCommit(editor);
-        } catch (Exception e) {
-            editorAbort(editor);
-            Alog.e(TAG, "保存分类信息出错！", e);
-        } finally {
-            try {
-                mDiskLruCache.flush();
-            } catch (IOException e) {
-                e.printStackTrace();
+                handler(subscriber, mCacheManager.get(key, ResRetailsModel.class));
             }
-        }
+        });
     }
 
-    private CategoryModel getCategoryCache() throws IOException {
+    @Override
+    public void saveResRetails(String path, ResRetailsModel model) {
 
-        DiskLruCache.Snapshot snapshot = mDiskLruCache.get(mCategoryKey);
+        String key = mCacheManager.buildKey(path);
 
-        if (snapshot == null) return null;
-
-        return new Gson().fromJson(snapshot.getString(0), CategoryModel.class);
+        mCacheManager.put(key, model);
     }
 
-    private void setEditorValue(DiskLruCache.Editor editor, CategoryModel model) throws IOException {
-
-        if (editor == null) return ;
-
-        editor.set(0, new Gson().toJson(model));
-    }
-
-    private void editorAbort(DiskLruCache.Editor editor) {
-
-        if (editor == null) return ;
+    private <T> void handler(Subscriber<? super T> subscriber, T model) {
 
         try {
-            editor.abort();
-        } catch (IOException e) {
-            e.printStackTrace();
+            // 处理下一步
+            subscriber.onNext(model);
+        } catch (Exception e) {
+            // 出错了
+            subscriber.onError(e);
+            return ;
         }
-    }
-
-    private void editorCommit(DiskLruCache.Editor editor) {
-
-        if (editor == null) return ;
-
-        try {
-            editor.commit();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // 完成
+        subscriber.onCompleted();
     }
 }

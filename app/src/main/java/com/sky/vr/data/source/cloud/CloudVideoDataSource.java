@@ -68,7 +68,7 @@ public class CloudVideoDataSource extends CloudDataSource implements VideoDataSo
     }
 
     @Override
-    public Observable<ResRetailsModel> getResRetails(String path) {
+    public Observable<ResRetailsModel> getResRetails(final String path) {
 
         VideoService videoService = buildVideoService();
 
@@ -77,6 +77,14 @@ public class CloudVideoDataSource extends CloudDataSource implements VideoDataSo
                     @Override
                     public ResRetailsModel call(Result<ResRetails> result) {
                         return MapperFactory.createResRetailsMapper().transform(result);
+                    }
+                })
+                .doOnNext(new Action1<ResRetailsModel>() {
+                    @Override
+                    public void call(ResRetailsModel model) {
+
+                        // 保存到缓存
+                        mCache.saveResRetails(path, model);
                     }
                 });
     }

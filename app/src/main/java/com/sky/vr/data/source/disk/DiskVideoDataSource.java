@@ -37,6 +37,6 @@ public class DiskVideoDataSource implements VideoDataSource {
 
     @Override
     public Observable<ResRetailsModel> getResRetails(String path) {
-        return Observable.just(null);
+        return mCache.getResRetails(path);
     }
 }

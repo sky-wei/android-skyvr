@@ -2,6 +2,7 @@ package com.sky.vr.data.source;
 
 import android.content.Context;
 
+import com.sky.vr.app.VRApplication;
 import com.sky.vr.data.cache.VideoCache;
 import com.sky.vr.data.cache.impl.VideoCacheImpl;
 import com.sky.vr.data.source.disk.DiskVideoDataSource;
@@ -18,7 +19,7 @@ public class VideoSourceFactory {
 
     public VideoSourceFactory(Context context) {
         mContext = context;
-        mCache = VideoCacheImpl.getVideoCache(context);
+        mCache = new VideoCacheImpl(VRApplication.getCacheManager());
     }
 
     public VideoDataSource create() {
