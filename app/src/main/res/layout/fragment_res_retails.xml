@@ -1,40 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background">
 
-    <LinearLayout
+    <ProgressBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="212dp"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:progress="20"
+        android:max="100"/>
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="220dp">
+
+        <ImageView
+            android:id="@+id/iv_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:background="#cfcfcf"/>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/bar_layout"
         android:orientation="vertical">
 
-        <android.support.design.widget.AppBarLayout
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="240dp">
-
-            <ImageView
-                android:id="@+id/iv_image"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="fitXY"
-                android:background="#cfcfcf"/>
-
-        </android.support.design.widget.AppBarLayout>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="5dp">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:paddingTop="20dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="10dp"
                 android:orientation="vertical">
 
                 <RelativeLayout
@@ -45,7 +55,7 @@
                         android:id="@+id/tv_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="16sp"
+                        android:textSize="18sp"
                         android:textColor="@color/black"/>
 
                     <TextView
@@ -78,7 +88,8 @@
                         android:layout_width="110dp"
                         android:layout_height="36dp"
                         android:layout_below="@id/tv_source"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="10dp"
                         android:text="@string/play"
                         android:textColor="@color/white"
                         android:background="@drawable/bg_button_default"/>
@@ -88,9 +99,8 @@
                         android:layout_width="110dp"
                         android:layout_height="36dp"
                         android:layout_toRightOf="@id/btn_play"
-                        android:layout_below="@id/tv_source"
+                        android:layout_alignTop="@id/btn_play"
                         android:layout_marginLeft="20dp"
-                        android:layout_marginTop="8dp"
                         android:text="@string/download"
                         android:textColor="@color/white"
                         android:background="@drawable/bg_button_default"/>
@@ -120,8 +130,8 @@
 
             </LinearLayout>
 
-        </android.support.v7.widget.CardView>
+        </android.support.v4.widget.NestedScrollView>
 
-    </LinearLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
-</android.support.v4.widget.NestedScrollView>
+</RelativeLayout>

@@ -92,7 +92,7 @@ public class ResRetailsPresenter extends VRBasePresenter<ResRetailsEvent>
         super.pause();
 
         // 解绑服务
-        mDownloadHelper.bindDownloadService();
+        mDownloadHelper.unbindDownloadService();
     }
 
     @Override

@@ -12,7 +12,8 @@ import com.sky.vr.view.LoadingDialog;
 public abstract class PresenterFragment<T extends BasePresenter> extends VRBaseFragment implements BaseView {
 
     protected T mPresenter;
-    protected LoadingDialog mLoadingDialog;
+    private LoadingDialog mLoadingDialog;
+    private boolean mShowLoading;
 
     @Override
     public void onResume() {
@@ -44,6 +45,8 @@ public abstract class PresenterFragment<T extends BasePresenter> extends VRBaseF
     @Override
     public void showLoading() {
 
+        if (!mShowLoading) return ;
+
         if (mLoadingDialog != null) {
             // 释放
             mLoadingDialog.dismiss();
@@ -57,6 +60,9 @@ public abstract class PresenterFragment<T extends BasePresenter> extends VRBaseF
 
     @Override
     public void cancelLoading() {
+
+        if (!mShowLoading) return ;
+
         // 隐藏
         mLoadingDialog.dismiss();
         mLoadingDialog = null;
@@ -66,6 +72,14 @@ public abstract class PresenterFragment<T extends BasePresenter> extends VRBaseF
     public void showMessage(String msg) {
         // 显示提示信息
         Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+    }
+
+    public boolean isShowLoading() {
+        return mShowLoading;
+    }
+
+    public void setShowLoading(boolean showLoading) {
+        mShowLoading = showLoading;
     }
 
     public void setPresenter(T presenter) {
