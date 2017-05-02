@@ -96,7 +96,7 @@ public class ResListFragment extends PresenterFragment<ResListContract.Presenter
         args.putSerializable("resource", resource);
 
         RetailsActivity.startRetailsActivity(
-                getContext(), "",
+                getContext(), "返回",
                 ResRetailsFragment.class.getName(), args);
     }
 
