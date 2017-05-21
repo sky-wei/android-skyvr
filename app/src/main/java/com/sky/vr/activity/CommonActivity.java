@@ -1,6 +1,5 @@
 package com.sky.vr.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,35 +16,24 @@ import butterknife.ButterKnife;
  */
 public class CommonActivity extends VRBaseActivity {
 
+    public static final String TITLE = "title";
+    public static final String F_NAME = "fName";
+    public static final String SUPPORT_FRAGMENT = "supportFragment";
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
-    public static void startCommonActivity(Context context, int title, String fname) {
-        startCommonActivity(context, title, fname, true);
-    }
-
-    public static void startCommonActivity(Context context, int title, String fname, boolean supportFragment) {
-
-        Intent intent = new Intent(context, CommonActivity.class);
-        intent.putExtra("title", title);
-        intent.putExtra("fname", fname);
-        intent.putExtra("supportFragment", supportFragment);
-
-        context.startActivity(intent);
-    }
-
     @Override
-    protected void setContentView() {
-        setContentView(R.layout.app_bar_frame);
-        ButterKnife.bind(this);
+    protected int getLayoutId() {
+        return R.layout.app_bar_frame;
     }
 
     @Override
     protected void initView(Intent intent) {
 
-        int title = intent.getIntExtra("title", R.string.app_name);
-        String fname = intent.getStringExtra("fname");
-        boolean mSupportFragment = intent.getBooleanExtra("supportFragment", true);
+        int title = intent.getIntExtra(TITLE, R.string.app_name);
+        String fName = intent.getStringExtra(F_NAME);
+        boolean mSupportFragment = intent.getBooleanExtra(SUPPORT_FRAGMENT, true);
 
         // 设置ActionBar
         setSupportActionBar(toolbar, title, true);
@@ -53,14 +41,14 @@ public class CommonActivity extends VRBaseActivity {
         if (mSupportFragment) {
             // SupportFragment
             FragmentManager fragmentManager = getSupportFragmentManager();
-            Fragment fragment = Fragment.instantiate(this, fname);
+            Fragment fragment = Fragment.instantiate(this, fName);
             fragmentManager.beginTransaction().replace(R.id.frame, fragment).commit();
             return ;
         }
 
         // Fragment
         android.app.FragmentManager fragmentManager = getFragmentManager();
-        android.app.Fragment fragment = android.app.Fragment.instantiate(this, fname);
+        android.app.Fragment fragment = android.app.Fragment.instantiate(this, fName);
         fragmentManager.beginTransaction().replace(R.id.frame, fragment).commit();
     }
 }

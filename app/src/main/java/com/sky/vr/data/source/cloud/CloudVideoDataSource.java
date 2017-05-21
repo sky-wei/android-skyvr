@@ -1,20 +1,17 @@
 package com.sky.vr.data.source.cloud;
 
-import com.sky.vr.app.VRConfig;
+import com.sky.vr.app.Constant;
 import com.sky.vr.data.cache.VideoCache;
-import com.sky.vr.data.mapper.CategoryMapper;
 import com.sky.vr.data.mapper.MapperFactory;
-import com.sky.vr.data.mapper.ResRetailsMapper;
-import com.sky.vr.data.mapper.ResListMapper;
 import com.sky.vr.data.model.CategoryModel;
-import com.sky.vr.data.model.ResRetailsModel;
 import com.sky.vr.data.model.ResListModel;
+import com.sky.vr.data.model.ResRetailsModel;
+import com.sky.vr.data.mojing.ResList;
 import com.sky.vr.data.mojing.ResRetails;
 import com.sky.vr.data.mojing.Result;
-import com.sky.vr.data.mojing.ResList;
 import com.sky.vr.data.mojing.Tags;
-import com.sky.vr.data.source.VideoDataSource;
 import com.sky.vr.data.service.VideoService;
+import com.sky.vr.data.source.VideoDataSource;
 
 import rx.Observable;
 import rx.functions.Action1;
@@ -102,6 +99,6 @@ public class CloudVideoDataSource extends CloudDataSource implements VideoDataSo
     }
 
     private VideoService buildVideoService() {
-        return buildService(VideoService.class, VRConfig.BASE_URL);
+        return buildService(VideoService.class, Constant.Service.BASE_URL);
     }
 }

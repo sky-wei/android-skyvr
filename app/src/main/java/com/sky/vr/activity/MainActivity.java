@@ -19,6 +19,7 @@ import com.sky.vr.fragment.AboutFragment;
 import com.sky.vr.fragment.CategoryFragment;
 import com.sky.vr.fragment.SettingFragment;
 import com.sky.vr.presenter.CategoryPresenter;
+import com.sky.vr.util.ActivityManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,9 +42,8 @@ public class MainActivity extends VRBaseActivity
     private long mKeyTime;
 
     @Override
-    protected void setContentView() {
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+    protected int getLayoutId() {
+        return R.layout.activity_main;
     }
 
     @Override
@@ -93,11 +93,11 @@ public class MainActivity extends VRBaseActivity
 
         } else if (id == R.id.nav_settings) {
             // 进入设置界面
-            CommonActivity.startCommonActivity(
+            ActivityManager.startCommonActivity(
                     this, R.string.settings, SettingFragment.class.getName(), false);
         } else if (id == R.id.nav_about) {
             // 进入关于界面
-            CommonActivity.startCommonActivity(
+            ActivityManager.startCommonActivity(
                     this, R.string.about, AboutFragment.class.getName());
         }
         return true;
@@ -106,7 +106,7 @@ public class MainActivity extends VRBaseActivity
     private void switchFragment(int id) {
 
         Class tClass = null;
-        Bundle args = buildDefalutArgs(id);
+        Bundle args = buildDefaultArgs(id);
 
         if (ID_VIDEO == id) {
             tClass = CategoryFragment.class;
@@ -140,7 +140,7 @@ public class MainActivity extends VRBaseActivity
         getSupportFragmentManager().beginTransaction().replace(R.id.fl_content, fragment).commit();
     }
 
-    private Bundle buildDefalutArgs(int id) {
+    private Bundle buildDefaultArgs(int id) {
 
         Bundle args = new Bundle();
         args.putInt("id", id);

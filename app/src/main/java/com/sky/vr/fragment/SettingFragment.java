@@ -6,7 +6,7 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 
 import com.sky.vr.R;
-import com.sky.vr.app.VRConfig;
+import com.sky.vr.app.Constant;
 
 /**
  * Created by sky on 16-10-9.
@@ -28,12 +28,12 @@ public class SettingFragment extends PreferenceFragment implements
         addPreferencesFromResource(R.xml.preferences);
 
         // 设备设置属性
-        mDeviceListPreference = (ListPreference) findPreference(VRConfig.DEVICE_SETTING);
+        mDeviceListPreference = (ListPreference) findPreference(Constant.Preference.DEVICE_SETTING);
         mDeviceListPreference.setOnPreferenceChangeListener(this);
 
-        mImageCachePreference = findPreference(VRConfig.IMAGE_CACHE);
-        mDataCachePreference = findPreference(VRConfig.DATA_CACHE);
-        mDownloadCachePreference = findPreference(VRConfig.DOWNLOAD_CACHE);
+        mImageCachePreference = findPreference(Constant.Preference.IMAGE_CACHE);
+        mDataCachePreference = findPreference(Constant.Preference.DATA_CACHE);
+        mDownloadCachePreference = findPreference(Constant.Preference.DOWNLOAD_CACHE);
 
         mImageCachePreference.setSummary("100MB");
         mDataCachePreference.setSummary("100MB");
@@ -49,7 +49,7 @@ public class SettingFragment extends PreferenceFragment implements
 
         String key = preference.getKey();
 
-        if (VRConfig.DEVICE_SETTING.equals(key)) {
+        if (Constant.Preference.DEVICE_SETTING.equals(key)) {
 
             // 设备设置
             String curValue = mDeviceListPreference.getValue();
@@ -70,13 +70,13 @@ public class SettingFragment extends PreferenceFragment implements
 
         String key = preference.getKey();
 
-        if (VRConfig.IMAGE_CACHE.equals(key)) {
+        if (Constant.Preference.IMAGE_CACHE.equals(key)) {
             // 清除图片缓存
             mImageCachePreference.setSummary("0KB");
-        } else if (VRConfig.DATA_CACHE.equals(key)) {
+        } else if (Constant.Preference.DATA_CACHE.equals(key)) {
             // 清除数据缓存
             mDataCachePreference.setSummary("0KB");
-        } else if (VRConfig.DOWNLOAD_CACHE.equals(key)) {
+        } else if (Constant.Preference.DOWNLOAD_CACHE.equals(key)) {
             // 清除下载缓存
             mDownloadCachePreference.setSummary("0KB");
         }
