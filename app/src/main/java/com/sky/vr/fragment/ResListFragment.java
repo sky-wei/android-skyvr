@@ -48,8 +48,6 @@ public class ResListFragment extends PresenterFragment<ResListContract.Presenter
 
     @Override
     protected void initView(View view, Bundle args) {
-        ButterKnife.bind(this, view);
-
         mViewAdapter = new ResListAdapter(getContext());
         mViewAdapter.setOnItemEventListener(this);
 

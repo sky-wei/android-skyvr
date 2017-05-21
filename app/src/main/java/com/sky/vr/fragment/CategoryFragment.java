@@ -38,8 +38,6 @@ public class CategoryFragment extends PresenterFragment<CategoryContract.Present
 
     @Override
     protected void initView(View view, Bundle args) {
-        ButterKnife.bind(this, view);
-
         // 初始化
         mPresenter = new CategoryPresenter(getContext(), getArguments(), this);
         mPresenter.loadCategory();

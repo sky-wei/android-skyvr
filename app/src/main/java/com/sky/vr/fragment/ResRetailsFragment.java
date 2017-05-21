@@ -30,25 +30,18 @@ public class ResRetailsFragment extends PresenterFragment<ResRetailsPresenter>
 
     @BindView(R.id.iv_image)
     ImageView iv_image;
-
     @BindView(R.id.refresh_layout)
     SwipeRefreshLayout refresh_layout;
-
     @BindView(R.id.tv_title)
     TextView tv_title;
-
     @BindView(R.id.tv_evaluation)
     TextView tv_evaluation;
-
     @BindView(R.id.tv_source)
     TextView tv_source;
-
     @BindView(R.id.btn_play)
     Button btn_play;
-
     @BindView(R.id.btn_download)
     Button btn_download;
-
     @BindView(R.id.iv_desc)
     TextView iv_desc;
 
@@ -59,8 +52,6 @@ public class ResRetailsFragment extends PresenterFragment<ResRetailsPresenter>
 
     @Override
     protected void initView(View view, Bundle args) {
-        ButterKnife.bind(this, view);
-
         refresh_layout.setColorSchemeResources(R.color.colorPrimary);
         refresh_layout.setOnRefreshListener(this);
 

@@ -1,45 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<android.support.v4.widget.SwipeRefreshLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/refresh_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:orientation="vertical">
 
-    <ProgressBar
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="212dp"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:progress="20"
-        android:max="100"/>
+        android:layout_height="match_parent">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/bar_layout"
-        android:layout_width="match_parent"
-        android:layout_height="220dp">
-
-        <ImageView
-            android:id="@+id/iv_image"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="fitXY"/>
-
-    </android.support.design.widget.AppBarLayout>
-
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/refresh_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/bar_layout"
-        android:orientation="vertical">
-
-        <android.support.v4.widget.NestedScrollView
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <ProgressBar
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="220dp"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:max="100"/>
+
+            <android.support.design.widget.AppBarLayout
+                android:id="@+id/bar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="220dp">
+
+                <ImageView
+                    android:id="@+id/iv_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"/>
+
+            </android.support.design.widget.AppBarLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/bar_layout"
                 android:paddingTop="20dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
@@ -129,8 +127,8 @@
 
             </LinearLayout>
 
-        </android.support.v4.widget.NestedScrollView>
+        </RelativeLayout>
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </android.support.v4.widget.NestedScrollView>
 
-</RelativeLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

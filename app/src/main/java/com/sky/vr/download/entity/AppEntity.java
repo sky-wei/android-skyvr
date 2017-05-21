@@ -14,7 +14,7 @@ import org.greenrobot.greendao.annotation.Generated;
 public class AppEntity {
 
     @Id(autoincrement = true)
-    private long id;
+    private Long id;
 
     /**
      * 下载的任务id
@@ -49,8 +49,8 @@ public class AppEntity {
      */
     private long time;
 
-    @Generated(hash = 1860346721)
-    public AppEntity(long id, long tid, String thumbnail,
+    @Generated(hash = 1467705848)
+    public AppEntity(Long id, long tid, String thumbnail,
             @NotNull String displayName, @NotNull String name, String desc,
             @NotNull String dir, @NotNull String packageName, String versionName,
             int versionCode, @NotNull String url, long time) {
@@ -72,11 +72,11 @@ public class AppEntity {
     public AppEntity() {
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -7,121 +7,38 @@ import android.content.ServiceConnection;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
-import android.support.annotation.NonNull;
 
-import com.sky.vr.download.DownloadException;
+import com.sky.android.common.utils.Alog;
 import com.sky.vr.download.DownloadFile;
 import com.sky.vr.download.DownloadListener;
 import com.sky.vr.download.DownloadManager;
 import com.sky.vr.download.DownloadService;
 import com.sky.vr.download.entity.DownloadEntity;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import static android.content.Context.BIND_AUTO_CREATE;
-
 /**
- * Created by sky on 16-10-30.
+ * Created by sky on 17-2-18.
  */
-
 public class DownloadHelper implements DownloadManager {
+
+    private static final String TAG = "DownloadHelper";
 
     public static final int SERVICE_CONNECTED = 0x101;
     public static final int SERVICE_DISCONNECTED = 0x102;
 
     private Context mContext;
-    private ServiceListener mServiceListener;
-    private DownloadListener mDownloadListener;
-    private List<DownloadListener> mDownloadListeners;
 
-    protected DownloadManager mDownloadManager;
+    private DownloadManager mDownloadManager;
     private ServiceConnection mServiceConnection;
 
-    public DownloadHelper(@NonNull Context context, @NonNull ServiceListener serviceListener) {
+    private ServiceListener mServiceListener;
+    private DownloadListener mDownloadListener;
+
+    public DownloadHelper(Context context, ServiceListener serviceListener, DownloadListener downloadListener) {
         mContext = context;
         mServiceListener = serviceListener;
-        mDownloadListener = new DownloadCallback();
-        mDownloadListeners = new ArrayList<>();
-    }
-
-    private boolean verify() {
-        return mDownloadManager != null ? true : false;
-    }
-
-    @Override
-    public long add(DownloadFile downloadFile) {
-        return verify() ? mDownloadManager.add(downloadFile) : 0L;
-    }
-
-    @Override
-    public void start(long id) {
-        if (verify()) mDownloadManager.start(id);
-    }
-
-    @Override
-    public boolean isDownloading(long id) {
-        return verify() ? mDownloadManager.isDownloading(id) : false;
-    }
-
-    @Override
-    public void pause(long id) {
-        if (verify()) mDownloadManager.pause(id);
-    }
-
-    @Override
-    public void cancel(long id) {
-        if (verify()) mDownloadManager.cancel(id);
-    }
-
-    @Override
-    public void pauseAll() {
-        if (verify()) mDownloadManager.pauseAll();
-    }
-
-    @Override
-    public void cancelAll() {
-        if (verify()) mDownloadManager.cancelAll();
-    }
-
-    @Override
-    public void delete(long id) {
-        if (verify()) mDownloadManager.delete(id);
-    }
-
-    @Override
-    public DownloadEntity getDownloadEntity(long id) {
-        return verify() ? mDownloadManager.getDownloadEntity(id) : null;
-    }
-
-    @Override
-    public List<DownloadEntity> getDownloadEntities(long... ids) {
-        return verify() ? mDownloadManager.getDownloadEntities(ids) : null;
-    }
-
-    @Override
-    public DownloadEntity getDownloadProgress(long id) {
-        return verify() ? mDownloadManager.getDownloadProgress(id) : null;
-    }
-
-    @Override
-    public List<DownloadEntity> getCompletes() {
-        return verify() ? mDownloadManager.getCompletes() : null;
-    }
-
-    @Override
-    public List<DownloadEntity> getUncompletes() {
-        return verify() ? mDownloadManager.getUncompletes() : null;
-    }
-
-    @Override
-    public void registerDownloadListener(DownloadListener listener) {
-        if (listener != null) mDownloadListeners.add(listener);
-    }
-
-    @Override
-    public void unregisterDownloadListener(DownloadListener listener) {
-        if (listener != null) mDownloadListeners.remove(listener);
+        mDownloadListener = downloadListener;
     }
 
     /**
@@ -131,11 +48,15 @@ public class DownloadHelper implements DownloadManager {
 
         if (mServiceConnection != null) return ;
 
-        // 绑定服务
-        mServiceConnection = new DownloadServiceConnection();
-        Intent intent = new Intent(mContext, DownloadService.class);
-
-        mContext.bindService(intent, mServiceConnection, BIND_AUTO_CREATE);
+        try {
+            // 绑定服务
+            mServiceConnection = new DownloadServiceConnection();
+            Intent intent = new Intent(mContext, DownloadService.class);
+            mContext.bindService(intent,
+                    mServiceConnection, Context.BIND_AUTO_CREATE);
+        } catch (Exception e) {
+            Alog.e(TAG, "绑定服务异常", e);
+        }
     }
 
     /**
@@ -145,13 +66,96 @@ public class DownloadHelper implements DownloadManager {
 
         if (mServiceConnection == null) return ;
 
-        mDownloadManager.unregisterDownloadListener(mDownloadListener);
-        mDownloadListener = null;
+        try {
+            // 移除监听
+            mDownloadManager.unregisterDownloadListener(mDownloadListener);
 
-        // 解绑服务
-        mContext.unbindService(mServiceConnection);
-        mServiceConnection = null;
-        mDownloadManager = null;
+            // 解绑服务
+            mContext.unbindService(mServiceConnection);
+            mServiceConnection = null;
+            mDownloadManager = null;
+        } catch (Exception e) {
+            Alog.e(TAG, "解绑服务异常", e);
+        }
+    }
+
+    public boolean isServiceContent() {
+        return mDownloadManager != null;
+    }
+
+    @Override
+    public long add(DownloadFile downloadFile) {
+        return isServiceContent() ? mDownloadManager.add(downloadFile) : -1;
+    }
+
+    @Override
+    public void start(long id) {
+        if (isServiceContent()) mDownloadManager.start(id);
+    }
+
+    @Override
+    public boolean isDownloading(long id) {
+        return isServiceContent() ? mDownloadManager.isDownloading(id) : false;
+    }
+
+    @Override
+    public void pause(long id) {
+        if (isServiceContent()) mDownloadManager.pause(id);
+    }
+
+    @Override
+    public void cancel(long id) {
+        if (isServiceContent()) mDownloadManager.cancel(id);
+    }
+
+    @Override
+    public void pauseAll() {
+        if (isServiceContent()) mDownloadManager.pauseAll();
+    }
+
+    @Override
+    public void cancelAll() {
+        if (isServiceContent()) mDownloadManager.cancelAll();
+    }
+
+    @Override
+    public void delete(long id) {
+        if (isServiceContent()) mDownloadManager.delete(id);
+    }
+
+    @Override
+    public DownloadEntity getDownloadEntity(long id) {
+        return isServiceContent() ? mDownloadManager.getDownloadEntity(id) : null;
+    }
+
+    @Override
+    public List<DownloadEntity> getDownloadEntities(long... ids) {
+        return isServiceContent() ? mDownloadManager.getDownloadEntities(ids) : null;
+    }
+
+    @Override
+    public DownloadEntity getDownloadProgress(long id) {
+        return isServiceContent() ? mDownloadManager.getDownloadProgress(id) : null;
+    }
+
+    @Override
+    public List<DownloadEntity> getCompletes() {
+        return isServiceContent() ? mDownloadManager.getCompletes() : null;
+    }
+
+    @Override
+    public List<DownloadEntity> getUnCompletes() {
+        return isServiceContent() ? mDownloadManager.getUnCompletes() : null;
+    }
+
+    @Override
+    public void registerDownloadListener(DownloadListener listener) {
+        if (isServiceContent()) mDownloadManager.registerDownloadListener(listener);
+    }
+
+    @Override
+    public void unregisterDownloadListener(DownloadListener listener) {
+        if (isServiceContent()) mDownloadManager.unregisterDownloadListener(listener);
     }
 
     void onHandleMessage(Message msg) {
@@ -165,6 +169,16 @@ public class DownloadHelper implements DownloadManager {
         }
     }
 
+    private final Handler mHandler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            onHandleMessage(msg);
+        }
+    };
+
     /**
      * 下载连接处理类
      */
@@ -175,6 +189,8 @@ public class DownloadHelper implements DownloadManager {
 
             DownloadService.LocalBinder localBinder = (DownloadService.LocalBinder) service;
             mDownloadManager = localBinder.getDownloadManager();
+
+            // 注册监听
             mDownloadManager.registerDownloadListener(mDownloadListener);
 
             // 发送连接成功消息
@@ -191,116 +207,10 @@ public class DownloadHelper implements DownloadManager {
         }
     }
 
-
-    protected final Handler mHandler = new Handler() {
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-
-            onHandleMessage(msg);
-        }
-    };
-
-
-    private final class DownloadCallback implements DownloadListener {
-
-        @Override
-        public void onStarted(long id) {
-
-            if (mDownloadListeners.isEmpty()) return ;
-
-            for (DownloadListener downloadListener : mDownloadListeners) {
-                // 通知所有的
-                downloadListener.onStarted(id);
-            }
-        }
-
-        @Override
-        public void onConnecting(long id) {
-
-            if (mDownloadListeners.isEmpty()) return ;
-
-            for (DownloadListener downloadListener : mDownloadListeners) {
-                // 通知所有的
-                downloadListener.onConnecting(id);
-            }
-        }
-
-        @Override
-        public void onConnected(long id, long total, boolean isRangeSupport) {
-
-            if (mDownloadListeners.isEmpty()) return ;
-
-            for (DownloadListener downloadListener : mDownloadListeners) {
-                // 通知所有的
-                downloadListener.onConnected(id, total, isRangeSupport);
-            }
-        }
-
-        @Override
-        public void onProgress(long id, long finished, long total, int progress) {
-
-            if (mDownloadListeners.isEmpty()) return ;
-
-            for (DownloadListener downloadListener : mDownloadListeners) {
-                // 通知所有的
-                downloadListener.onProgress(id, finished, total, progress);
-            }
-        }
-
-        @Override
-        public void onCompleted(long id) {
-
-            if (mDownloadListeners.isEmpty()) return ;
-
-            for (DownloadListener downloadListener : mDownloadListeners) {
-                // 通知所有的
-                downloadListener.onCompleted(id);
-            }
-        }
-
-        @Override
-        public void onDownloadPaused(long id) {
-
-            if (mDownloadListeners.isEmpty()) return ;
-
-            for (DownloadListener downloadListener : mDownloadListeners) {
-                // 通知所有的
-                downloadListener.onDownloadPaused(id);
-            }
-        }
-
-        @Override
-        public void onDownloadCanceled(long id) {
-
-            // 删除任务信息
-            mDownloadManager.delete(id);
-
-            if (mDownloadListeners.isEmpty()) return ;
-
-            for (DownloadListener downloadListener : mDownloadListeners) {
-                // 通知所有的
-                downloadListener.onDownloadCanceled(id);
-            }
-        }
-
-        @Override
-        public void onFailed(long id, DownloadException e) {
-
-            if (mDownloadListeners.isEmpty()) return ;
-
-            for (DownloadListener downloadListener : mDownloadListeners) {
-                // 通知所有的
-                downloadListener.onFailed(id, e);
-            }
-        }
-    }
-
     public interface ServiceListener {
 
-        void onServiceConnected(DownloadManager downloadManager);
+        void onServiceConnected(DownloadHelper serviceHelper);
 
-        void onServiceDisconnected(DownloadManager downloadManager);
+        void onServiceDisconnected(DownloadHelper serviceHelper);
     }
 }

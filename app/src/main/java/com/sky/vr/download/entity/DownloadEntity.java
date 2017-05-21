@@ -12,7 +12,7 @@ import org.greenrobot.greendao.annotation.NotNull;
 public class DownloadEntity {
 
     @Id(autoincrement = true)
-    private long id;
+    private Long id;
 
     @NotNull
     private String name;
@@ -37,8 +37,8 @@ public class DownloadEntity {
     private int state;
     private long time;
 
-    @Generated(hash = 774727670)
-    public DownloadEntity(long id, @NotNull String name, @NotNull String tempName,
+    @Generated(hash = 1203823663)
+    public DownloadEntity(Long id, @NotNull String name, @NotNull String tempName,
             @NotNull String url, @NotNull String dir, int progress, long length,
             long finished, boolean acceptRanges, int state, long time) {
         this.id = id;
@@ -58,11 +58,11 @@ public class DownloadEntity {
     public DownloadEntity() {
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

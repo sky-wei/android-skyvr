@@ -1,5 +1,6 @@
 package com.sky.vr.download.architecture;
 
+
 import com.sky.vr.download.DownloadException;
 
 /**
