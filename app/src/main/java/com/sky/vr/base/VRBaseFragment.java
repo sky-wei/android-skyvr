@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 
 import com.sky.android.common.base.BaseFragment;
 
+import butterknife.ButterKnife;
+
 /**
  * Created by sky on 16-10-9.
  */
@@ -16,7 +18,11 @@ public abstract class VRBaseFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return createView(inflater, container);
+
+        View view = createView(inflater, container);
+        ButterKnife.bind(this, view);
+
+        return view;
     }
 
     @Override

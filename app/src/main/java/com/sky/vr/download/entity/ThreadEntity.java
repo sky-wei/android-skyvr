@@ -14,7 +14,7 @@ import org.greenrobot.greendao.annotation.Generated;
 public class ThreadEntity {
 
     @Id(autoincrement = true)
-    private long id;
+    private Long id;
 
     /**
      * 任务id
@@ -28,8 +28,8 @@ public class ThreadEntity {
     private long end;
     private long finished;
 
-    @Generated(hash = 490372734)
-    public ThreadEntity(long id, long tid, @NotNull String url, long start,
+    @Generated(hash = 894116799)
+    public ThreadEntity(Long id, long tid, @NotNull String url, long start,
             long end, long finished) {
         this.id = id;
         this.tid = tid;
@@ -43,11 +43,11 @@ public class ThreadEntity {
     public ThreadEntity() {
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

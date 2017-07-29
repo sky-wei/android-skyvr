@@ -5,9 +5,9 @@ package com.sky.vr.download;
  */
 public class DownloadConfiguration {
 
-    public static final int DEFAULT_MAX_THREAD_NUMBER = 10;
+    public static final int DEFAULT_MAX_THREAD_NUMBER = 3;
 
-    public static final int DEFAULT_THREAD_NUMBER = 2;
+    public static final int DEFAULT_THREAD_NUMBER = 1; // 注意，目前只能是1个
 
     /**
      * thread number in the pool

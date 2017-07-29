@@ -12,12 +12,12 @@ import android.view.ViewGroup;
 import com.sky.android.common.interfaces.OnItemEventListener;
 import com.sky.android.common.utils.DisplayUtils;
 import com.sky.vr.R;
-import com.sky.vr.activity.RetailsActivity;
 import com.sky.vr.adapter.ResListAdapter;
 import com.sky.vr.base.PresenterFragment;
 import com.sky.vr.contract.ResListContract;
 import com.sky.vr.data.model.ResListModel;
 import com.sky.vr.presenter.ResListPresenter;
+import com.sky.vr.util.ActivityManager;
 import com.sky.vr.util.RecyclerHelper;
 import com.sky.vr.util.decoration.GridSpacingItemDecoration;
 
@@ -48,8 +48,6 @@ public class ResListFragment extends PresenterFragment<ResListContract.Presenter
 
     @Override
     protected void initView(View view, Bundle args) {
-        ButterKnife.bind(this, view);
-
         mViewAdapter = new ResListAdapter(getContext());
         mViewAdapter.setOnItemEventListener(this);
 
@@ -95,8 +93,8 @@ public class ResListFragment extends PresenterFragment<ResListContract.Presenter
         args.putInt("type", type);
         args.putSerializable("resource", resource);
 
-        RetailsActivity.startRetailsActivity(
-                getContext(), "",
+        ActivityManager.startRetailsActivity(
+                getContext(), "返回",
                 ResRetailsFragment.class.getName(), args);
     }
 

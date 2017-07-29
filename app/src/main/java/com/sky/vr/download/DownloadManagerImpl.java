@@ -42,7 +42,7 @@ public class DownloadManagerImpl implements Downloader.OnDownloaderDestroyedList
     private DownloadConfiguration mConfig;
     private ExecutorService mExecutorService;
     private DownloadStatusDelivery mDelivery;
-    private DownloadDB mDownloadDB;
+    private DownloadDB mDBDbManager;
 
     private DownloadMonitor mDownloadMonitor;
 
@@ -62,7 +62,7 @@ public class DownloadManagerImpl implements Downloader.OnDownloaderDestroyedList
         mDownloadInfoMap = new HashMap<>();
         mExecutorService = Executors.newFixedThreadPool(mConfig.getMaxThreadNum());
         mDelivery = new DownloadStatusDeliveryImpl(new Handler(Looper.getMainLooper()));
-        mDownloadDB = DownloadDB.getInstance(mContext);
+        mDBDbManager = DownloadDB.getInstance(mContext);
         mDownloadMonitor = new DownloadMonitor(this);
 
         // 加载所有下载信息
@@ -82,7 +82,7 @@ public class DownloadManagerImpl implements Downloader.OnDownloaderDestroyedList
         mDownloadInfoMap.clear();
 
         // 加载所有下载信息
-        List<DownloadEntity> downloadInfos = mDownloadDB.getDownloadEntityDao().loadAll();
+        List<DownloadEntity> downloadInfos = mDBDbManager.getDownloadEntityDao().loadAll();
 
         if (downloadInfos == null || downloadInfos.isEmpty()) return ;
 
@@ -127,7 +127,7 @@ public class DownloadManagerImpl implements Downloader.OnDownloaderDestroyedList
 
         long id = 0L;
 
-        List<DownloadEntity> downloadInfos = mDownloadDB.getDownloadEntityDao()
+        List<DownloadEntity> downloadInfos = mDBDbManager.getDownloadEntityDao()
                 .queryBuilder().where(
                         DownloadEntityDao.Properties.Url.eq(url)).build().list();
 
@@ -158,14 +158,16 @@ public class DownloadManagerImpl implements Downloader.OnDownloaderDestroyedList
 
         if (downloadFile == null) return 0L;
 
-        long id = queryExistId(downloadFile.getUri());
+        // 不做处理了
+//        long id = queryExistId(downloadFile.getUri());
+//
+//        if (id != 0L) return id;
 
-        if (id != 0L) return id;
-
-        DownloadEntityDao downloadInfoDao = mDownloadDB.getDownloadEntityDao();
+        DownloadEntityDao downloadInfoDao = mDBDbManager.getDownloadEntityDao();
 
         // 添加到列表中
-        DownloadEntity downloadInfo = newDownloadInfo(downloadFile.getName(), downloadFile.getFolder().getPath(), downloadFile.getUri());
+        DownloadEntity downloadInfo = newDownloadInfo(
+                downloadFile.getName(), downloadFile.getFolder().getPath(), downloadFile.getUri());
         long rowId = downloadInfoDao.insert(downloadInfo);
 
         // 添加到列表中
@@ -185,7 +187,7 @@ public class DownloadManagerImpl implements Downloader.OnDownloaderDestroyedList
 
         // 开始下载...
         DownloadResponse response = new DownloadResponseImpl(downloadInfo.getId(), mDelivery, mDownloadMonitor);
-        Downloader downloader = new DownloaderImpl(downloadInfo, response, mExecutorService, mDownloadDB, mConfig, this);
+        Downloader downloader = new DownloaderImpl(downloadInfo, response, mExecutorService, mDBDbManager, mConfig, this);
         mDownloaderMap.put(id, downloader);
         downloader.start();
     }
@@ -251,8 +253,8 @@ public class DownloadManagerImpl implements Downloader.OnDownloaderDestroyedList
         }
 
         // 获取Dao
-        DownloadEntityDao downloadInfoDao = mDownloadDB.getDownloadEntityDao();
-        ThreadEntityDao threadInfoDao = mDownloadDB.getThreadEntityDao();
+        DownloadEntityDao downloadInfoDao = mDBDbManager.getDownloadEntityDao();
+        ThreadEntityDao threadInfoDao = mDBDbManager.getThreadEntityDao();
 
         // 获取下载信息
         DownloadEntity downloadInfo = downloadInfoDao.load(id);
@@ -287,7 +289,7 @@ public class DownloadManagerImpl implements Downloader.OnDownloaderDestroyedList
     @Override
     public List<DownloadEntity> getDownloadEntities(long... ids) {
 
-        List<DownloadEntity> downloadInfos = mDownloadDB.getDownloadEntityDao()
+        List<DownloadEntity> downloadInfos = mDBDbManager.getDownloadEntityDao()
                 .queryBuilder().where(DownloadEntityDao.Properties.Id.in(ids)).build().list();
         return downloadInfos;
     }
@@ -295,7 +297,7 @@ public class DownloadManagerImpl implements Downloader.OnDownloaderDestroyedList
     @Override
     public DownloadEntity getDownloadProgress(long id) {
 
-        List<ThreadEntity> threadInfos = mDownloadDB.getThreadEntityDao()
+        List<ThreadEntity> threadInfos = mDBDbManager.getThreadEntityDao()
                 .queryBuilder().where(ThreadEntityDao.Properties.Tid.eq(id)).build().list();
 
         if (threadInfos == null || threadInfos.isEmpty()) return null;
@@ -319,14 +321,14 @@ public class DownloadManagerImpl implements Downloader.OnDownloaderDestroyedList
     @Override
     public List<DownloadEntity> getCompletes() {
 
-        List<DownloadEntity> downloadInfos = mDownloadDB.getDownloadEntityDao()
+        List<DownloadEntity> downloadInfos = mDBDbManager.getDownloadEntityDao()
                 .queryBuilder().where(DownloadEntityDao.Properties.State.eq(DownloadStatus.STATUS_COMPLETED)).build().list();
         return downloadInfos;
     }
 
     @Override
-    public List<DownloadEntity> getUncompletes() {
-        List<DownloadEntity> downloadInfos = mDownloadDB.getDownloadEntityDao()
+    public List<DownloadEntity> getUnCompletes() {
+        List<DownloadEntity> downloadInfos = mDBDbManager.getDownloadEntityDao()
                 .queryBuilder().where(DownloadEntityDao.Properties.State.notEq(DownloadStatus.STATUS_COMPLETED)).build().list();
         return downloadInfos;
     }

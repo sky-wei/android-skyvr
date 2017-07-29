@@ -259,6 +259,7 @@ public class DownloaderImpl implements Downloader, ConnectTask.OnConnectListener
         final List<ThreadEntity> threadInfos = mDownloadDB.getThreadEntityDao()
                 .queryBuilder().where(ThreadEntityDao.Properties.Tid.eq(getTid())).build().list();
         if (threadInfos.isEmpty()) {
+//            final int threadNum = mConfig.getThreadNum();
             final int threadNum = mConfig.getThreadNum();
             for (int i = 0; i < threadNum; i++) {
                 // calculate average
@@ -266,7 +267,7 @@ public class DownloaderImpl implements Downloader, ConnectTask.OnConnectListener
                 final long start = average * i;
                 final long end;
                 if (i == threadNum - 1) {
-                    end = length;
+                    end = length - 1;
                 } else {
                     end = start + average - 1;
                 }

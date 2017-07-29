@@ -10,6 +10,8 @@ import com.sky.vr.data.model.ResRetailsModel;
 import com.sky.vr.data.model.ResListModel;
 import com.sky.vr.data.source.VideoDataRepository;
 import com.sky.vr.data.source.VideoSourceFactory;
+import com.sky.vr.download.DownloadException;
+import com.sky.vr.download.DownloadListener;
 import com.sky.vr.download.DownloadManager;
 import com.sky.vr.event.ResRetailsEvent;
 import com.sky.vr.helper.DownloadHelper;
@@ -22,7 +24,7 @@ import rx.schedulers.Schedulers;
  */
 
 public class ResRetailsPresenter extends VRBasePresenter<ResRetailsEvent>
-        implements ResRetailsContract.Presenter, DownloadHelper.ServiceListener {
+        implements ResRetailsContract.Presenter, DownloadHelper.ServiceListener, DownloadListener {
 
     private int mType;
     private ResListModel.Resource mResource;
@@ -38,7 +40,7 @@ public class ResRetailsPresenter extends VRBasePresenter<ResRetailsEvent>
         mResource = (ResListModel.Resource) args.getSerializable("resource");
         mView = view;
         mRepository = new VideoDataRepository(new VideoSourceFactory(context));
-        mDownloadHelper = new DownloadHelper(context, this);
+        mDownloadHelper = new DownloadHelper(context, this, this);
     }
 
     @Override
@@ -96,13 +98,52 @@ public class ResRetailsPresenter extends VRBasePresenter<ResRetailsEvent>
     }
 
     @Override
-    public void onServiceConnected(DownloadManager downloadManager) {
-
+    public void onServiceConnected(DownloadHelper serviceHelper) {
 
     }
 
     @Override
-    public void onServiceDisconnected(DownloadManager downloadManager) {
+    public void onServiceDisconnected(DownloadHelper serviceHelper) {
+
+    }
+
+    @Override
+    public void onStarted(long id) {
+
+    }
+
+    @Override
+    public void onConnecting(long id) {
+
+    }
+
+    @Override
+    public void onConnected(long id, long total, boolean isRangeSupport) {
+
+    }
+
+    @Override
+    public void onProgress(long id, long finished, long total, int progress) {
+
+    }
+
+    @Override
+    public void onCompleted(long id) {
+
+    }
+
+    @Override
+    public void onDownloadPaused(long id) {
+
+    }
+
+    @Override
+    public void onDownloadCanceled(long id) {
+
+    }
+
+    @Override
+    public void onFailed(long id, DownloadException e) {
 
     }
 }

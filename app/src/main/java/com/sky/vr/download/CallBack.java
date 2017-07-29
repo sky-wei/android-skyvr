@@ -1,6 +1,5 @@
 package com.sky.vr.download;
 
-import com.sky.vr.download.core.ConnectTaskImpl;
 
 import java.net.HttpURLConnection;
 

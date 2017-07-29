@@ -13,7 +13,7 @@ public class VideoEntity {
 
 
     @Id(autoincrement = true)
-    private long id;
+    private Long id;
 
     /**
      * 下载的任务id
@@ -48,8 +48,8 @@ public class VideoEntity {
      */
     private long time;
 
-    @Generated(hash = 1829756143)
-    public VideoEntity(long id, long tid, String thumbnail,
+    @Generated(hash = 1085199394)
+    public VideoEntity(Long id, long tid, String thumbnail,
             @NotNull String displayName, @NotNull String name, String desc,
             @NotNull String dir, @NotNull String url, int type, long time) {
         this.id = id;
@@ -68,11 +68,11 @@ public class VideoEntity {
     public VideoEntity() {
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

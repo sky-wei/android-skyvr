@@ -31,8 +31,6 @@ public class AboutFragment extends VRBaseFragment {
 
     @Override
     protected void initView(View view, Bundle args) {
-        ButterKnife.bind(this, view);
-
         // 设置版本名称
         tv_version.setText(getString(R.string.version_x,
                 AppUtil.getAppVersionName(getContext())));

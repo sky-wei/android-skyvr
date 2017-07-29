@@ -4,7 +4,7 @@ package com.sky.vr.download.core;
 import android.os.Process;
 import android.text.TextUtils;
 
-import com.sky.vr.download.Constants.HTTP;
+import com.sky.vr.download.Constants;
 import com.sky.vr.download.DownloadException;
 import com.sky.vr.download.architecture.DownloadStatus;
 import com.sky.vr.download.architecture.DownloadTask;
@@ -136,9 +136,9 @@ public abstract class DownloadTaskImpl implements DownloadTask {
         HttpURLConnection httpConnection = null;
         try {
             httpConnection = (HttpURLConnection) url.openConnection();
-            httpConnection.setConnectTimeout(HTTP.CONNECT_TIME_OUT);
-            httpConnection.setReadTimeout(HTTP.READ_TIME_OUT);
-            httpConnection.setRequestMethod(HTTP.GET);
+            httpConnection.setConnectTimeout(Constants.HTTP.CONNECT_TIME_OUT);
+            httpConnection.setReadTimeout(Constants.HTTP.READ_TIME_OUT);
+            httpConnection.setRequestMethod(Constants.HTTP.GET);
             setHttpHeader(getHttpHeaders(mThreadEntity), httpConnection);
             final int responseCode = httpConnection.getResponseCode();
             if (responseCode == getResponseCode()) {

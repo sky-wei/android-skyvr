@@ -1,5 +1,6 @@
 package com.sky.vr.download;
 
+
 import com.sky.vr.download.entity.DownloadEntity;
 
 import java.util.List;
@@ -87,7 +88,7 @@ public interface DownloadManager {
      * 获取所有未完成的下载信息
      * @return 返回所有未完成的下载信息
      */
-    List<DownloadEntity> getUncompletes();
+    List<DownloadEntity> getUnCompletes();
 
     /**
      * 注册下载事件监听

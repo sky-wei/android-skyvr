@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 
 import com.sky.android.common.base.BaseActivity;
 
+import butterknife.ButterKnife;
+
 /**
  * Created by sky on 16-9-27.
  */
@@ -18,13 +20,14 @@ public abstract class VRBaseActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         // 设置
-        setContentView();
+        setContentView(getLayoutId());
+        ButterKnife.bind(this);
 
         // 初始化
         initView(getIntent());
     }
 
-    protected abstract void setContentView();
+    protected abstract int getLayoutId();
 
     protected abstract void initView(Intent intent);
 
